@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://d6en108cseun"]
+[gd_scene load_steps=5 format=3 uid="uid://d6en108cseun"]
 
 [ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/kitchen_v1.png" id="1_vwwbm"]
+[ext_resource type="PackedScene" uid="uid://oqimhaex6jk2" path="res://scenes/player.tscn" id="2_li8ny"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7gyc"]
 resource_name = "kitchen"
@@ -2849,3 +2850,7 @@ layer_2/tile_data = PackedInt32Array(-131087, 524288, 26, -65551, 524288, 27, -1
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(581, 320)
 zoom = Vector2(1.5, 1.5)
+
+[node name="Player" parent="." instance=ExtResource("2_li8ny")]
+position = Vector2(458, 261)
+scale = Vector2(1.5, 1.5)
