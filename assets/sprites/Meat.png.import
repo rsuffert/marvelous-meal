@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4rhf8usc00un"
-path="res://.godot/imported/free-ironman-marvel-super-hero-earth-saver-avenger-28699.png-4aa2f232875d4a5a684acbd60656d1e7.ctex"
+uid="uid://cgkob1opc3vu6"
+path="res://.godot/imported/Meat.png-9b1cb7a43c30fc2ed91bd715d98c767f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/free-ironman-marvel-super-hero-earth-saver-avenger-28699.png"
-dest_files=["res://.godot/imported/free-ironman-marvel-super-hero-earth-saver-avenger-28699.png-4aa2f232875d4a5a684acbd60656d1e7.ctex"]
+source_file="res://assets/sprites/Meat.png"
+dest_files=["res://.godot/imported/Meat.png-9b1cb7a43c30fc2ed91bd715d98c767f.ctex"]
 
 [params]
 

@@ -9,16 +9,15 @@ extends Node2D
 func _ready() -> void:
 	score_label.text = "Score: " + str(current_score)
 	time_label.text = "Time: " + str(game_duration_seconds)
-	
-	for i in range(2):
-		create_order("res://assets/icons/free-spiderman-1502925-1273046.png", "res://assets/icons/4853280.png")
 
 func _on_timer_timeout() -> void:
 	if game_duration_seconds > 0:
 		game_duration_seconds -= 1
 		time_label.text = "Time: " + str(game_duration_seconds)
+		if game_duration_seconds % 10 == 0: # create an order every 10 seconds
+			create_order("res://assets/icons/free-spiderman-1502925-1273046.png", "res://assets/icons/4853280.png")		
 	else:
-		print("Game over!") # change to game over scene
+		pass # change to game over scene
 
 func create_order(hero_texture_path, food_texture_path):
 	var panel = Panel.new()
