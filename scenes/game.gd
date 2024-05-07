@@ -1,19 +1,23 @@
 extends Node2D
 
 @onready var game_duration_seconds : int = 60
+@onready var current_score : int = 0
+@onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var orders_container = $UserInterface/OrdersContainer
 
 func _ready() -> void:
+	score_label.text = "Score: " + str(current_score)
 	time_label.text = "Time: " + str(game_duration_seconds)
 	
 	for i in range(2):
 		create_order("res://assets/icons/free-spiderman-1502925-1273046.png", "res://assets/icons/4853280.png")
 
 func _on_timer_timeout() -> void:
-	game_duration_seconds -= 1
-	time_label.text = "Time: " + str(game_duration_seconds)
-	if game_duration_seconds <= 0:
+	if game_duration_seconds > 0:
+		game_duration_seconds -= 1
+		time_label.text = "Time: " + str(game_duration_seconds)
+	else:
 		print("Game over!") # change to game over scene
 
 func create_order(hero_texture_path, food_texture_path):

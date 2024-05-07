@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_ucdu8"]
 [ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/sprites/kitchen_v1.png" id="1_vwwbm"]
 [ext_resource type="PackedScene" uid="uid://oqimhaex6jk2" path="res://scenes/player.tscn" id="2_li8ny"]
-[ext_resource type="FontFile" uid="uid://cby2ee0exfpuo" path="res://assets/fonts/BlopyFont-4BxL6.ttf" id="3_pwpoy"]
+[ext_resource type="FontFile" uid="uid://nbdc8tivefnq" path="res://assets/fonts/ARCADECLASSIC.TTF" id="4_3q0xf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7gyc"]
 resource_name = "kitchen"
@@ -2835,11 +2835,11 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_t7gyc")
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ila7"]
-font = ExtResource("3_pwpoy")
+font = ExtResource("4_3q0xf")
 font_size = 35
 
 [sub_resource type="LabelSettings" id="LabelSettings_mrtj8"]
-font = ExtResource("3_pwpoy")
+font = ExtResource("4_3q0xf")
 font_size = 35
 
 [node name="Game" type="Node2D"]
@@ -2882,20 +2882,18 @@ offset_bottom = 40.0
 
 [node name="StatsContainer" type="VBoxContainer" parent="UserInterface"]
 layout_mode = 0
-offset_left = 101.0
-offset_top = 20.0
-offset_right = 211.0
-offset_bottom = 88.0
+offset_left = 96.0
+offset_top = 10.0
+offset_right = 206.0
+offset_bottom = 78.0
 metadata/_edit_group_ = true
 
 [node name="ScoreLabel" type="Label" parent="UserInterface/StatsContainer"]
 layout_mode = 2
-text = "Score: 0"
 label_settings = SubResource("LabelSettings_0ila7")
 
 [node name="TimeLabel" type="Label" parent="UserInterface/StatsContainer"]
 layout_mode = 2
-text = "Time:"
 label_settings = SubResource("LabelSettings_mrtj8")
 
 [node name="OrdersContainer" type="HBoxContainer" parent="UserInterface"]
