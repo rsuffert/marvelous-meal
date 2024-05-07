@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d6en108cseun"]
+[gd_scene load_steps=9 format=3 uid="uid://d6en108cseun"]
 
-[ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/kitchen_v1.png" id="1_vwwbm"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_ucdu8"]
+[ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/sprites/kitchen_v1.png" id="1_vwwbm"]
 [ext_resource type="PackedScene" uid="uid://oqimhaex6jk2" path="res://scenes/player.tscn" id="2_li8ny"]
+[ext_resource type="FontFile" uid="uid://cby2ee0exfpuo" path="res://assets/fonts/BlopyFont-4BxL6.ttf" id="3_pwpoy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7gyc"]
 resource_name = "kitchen"
@@ -2832,7 +2834,16 @@ texture = ExtResource("1_vwwbm")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_t7gyc")
 
+[sub_resource type="LabelSettings" id="LabelSettings_0ila7"]
+font = ExtResource("3_pwpoy")
+font_size = 35
+
+[sub_resource type="LabelSettings" id="LabelSettings_mrtj8"]
+font = ExtResource("3_pwpoy")
+font_size = 35
+
 [node name="Game" type="Node2D"]
+script = ExtResource("1_ucdu8")
 
 [node name="Kitchen" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -2855,9 +2866,47 @@ layer_2/tile_data = PackedInt32Array(-131087, 524288, 26, -65551, 524288, 27, -1
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(581, 320)
-zoom = Vector2(1.5, 1.5)
+offset = Vector2(-30, -50)
+zoom = Vector2(1.25, 1.25)
 
 [node name="Player" parent="." instance=ExtResource("2_li8ny")]
 y_sort_enabled = true
 position = Vector2(708, 260)
 scale = Vector2(1.5, 1.5)
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StatsContainer" type="VBoxContainer" parent="UserInterface"]
+layout_mode = 0
+offset_left = 101.0
+offset_top = 20.0
+offset_right = 211.0
+offset_bottom = 88.0
+metadata/_edit_group_ = true
+
+[node name="ScoreLabel" type="Label" parent="UserInterface/StatsContainer"]
+layout_mode = 2
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_0ila7")
+
+[node name="TimeLabel" type="Label" parent="UserInterface/StatsContainer"]
+layout_mode = 2
+text = "Time:"
+label_settings = SubResource("LabelSettings_mrtj8")
+
+[node name="OrdersContainer" type="HBoxContainer" parent="UserInterface"]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 21.0
+offset_right = 988.0
+offset_bottom = 85.0
+alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
