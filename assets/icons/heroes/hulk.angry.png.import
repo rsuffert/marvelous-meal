@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bic2j8g0lp5d"
-path="res://.godot/imported/4853280.png-3a7205c0b37f48a05686e9271ae0384b.ctex"
+uid="uid://dk4r7twpr87dn"
+path="res://.godot/imported/hulk.angry.png-b175bc6a75bb8d4270baf5a4dbfed8a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/4853280.png"
-dest_files=["res://.godot/imported/4853280.png-3a7205c0b37f48a05686e9271ae0384b.ctex"]
+source_file="res://assets/icons/heroes/hulk.angry.png"
+dest_files=["res://.godot/imported/hulk.angry.png-b175bc6a75bb8d4270baf5a4dbfed8a9.ctex"]
 
 [params]
 

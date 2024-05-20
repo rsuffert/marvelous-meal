@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3dy3m2vp0xr"
-path="res://.godot/imported/free-spiderman-1502925-1273046.png-8d822261e332b52363155fe0c6a347f7.ctex"
+uid="uid://t2jyte601np6"
+path="res://.godot/imported/hulk.happy.png-1e820fc386f09936cc680e364cfdce0f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/free-spiderman-1502925-1273046.png"
-dest_files=["res://.godot/imported/free-spiderman-1502925-1273046.png-8d822261e332b52363155fe0c6a347f7.ctex"]
+source_file="res://assets/icons/heroes/hulk.happy.png"
+dest_files=["res://.godot/imported/hulk.happy.png-1e820fc386f09936cc680e364cfdce0f.ctex"]
 
 [params]
 
