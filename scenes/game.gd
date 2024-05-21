@@ -5,48 +5,57 @@ extends Node2D
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var orders_container = $UserInterface/OrdersContainer
-const ORDERS_CREATION_INTERVAL = 5
+const ORDERS_CREATION_INTERVAL = 10
 
-var heroes = ['deadpool', 'hulk', 'spider'];
+var rng = RandomNumberGenerator.new()
+
+# Listas para controle interno de pratos, herois e pedidos
+var heroes = ['deadpool', 'hulk', 'spider']
+var heroes_in_use = []
 var dishes = [['Batata', 10], ['MacTudo', 30]]
 var orders = []
-var inuseHeroes = [];
-var rng = RandomNumberGenerator.new()
 
 func _ready() -> void:
 	score_label.text = "Score: " + str(current_score)
 	time_label.text = "Time: " + str(game_duration_seconds)
 
 func _on_timer_timeout() -> void:
-	incrementOrders()
+	check_existing_orders()
 	if game_duration_seconds > 0:
-		game_duration_seconds -= 1
-		time_label.text = "Time: " + str(game_duration_seconds)
-		if game_duration_seconds % ORDERS_CREATION_INTERVAL == 0 and len(heroes) > 0: # create an order every 10 seconds
-			create_order(getHero(), getDish())
+		game_loop()
 	else:
 		pass # change to game over scene
-		
-func getHero():
+
+# Loop do jogo, com as acoes de atualizacao da UI e de coordenacao
+func game_loop():
+	game_duration_seconds -= 1
+	time_label.text = "Time: " + str(game_duration_seconds)
+	if game_duration_seconds % ORDERS_CREATION_INTERVAL == 0 and len(heroes) > 0:
+		create_order(get_hero(), get_dish())
+
+# Gera um heroi aleatorio para ser adicionado a um pedido, retornando seu nome
+func get_hero():
 	var pos = rng.randf_range(0, len(heroes))
 	var hero = heroes[pos]
-	inuseHeroes.append(hero)
+	heroes_in_use.append(hero)
 	heroes.remove_at(pos)	
 	return hero
 	
-func getDish():
+# Gera um prato aleatorio para ser adicionado a um pedido, retornando seu nome e sua duracao
+func get_dish():
 	var pos = rng.randf_range(0, len(dishes))
 	var dish = dishes[pos]
 	return dish
 
-func incrementOrders():
-	for i in range(len(orders) - 1, -1, -1):  # Iterate backwards
+# Itera sobre os pedidos existentes e apaga aqueles cujo tempo acabou
+func check_existing_orders():
+	for i in range(len(orders) - 1, -1, -1):
 		var order = orders[i]
 		order[3] += 1
 		if order[3] == order[2]: # tempo do pedido acabou
 			var hero = order[0]
 			heroes.append(hero)
-			inuseHeroes.remove_at(i)
+			heroes_in_use.remove_at(i)
 			orders.remove_at(i)
 			delete_order(i)
 
