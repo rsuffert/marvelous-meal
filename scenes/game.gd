@@ -9,11 +9,30 @@ const ORDERS_CREATION_INTERVAL = 10
 
 var rng = RandomNumberGenerator.new()
 
+class Dish:
+	var name: String
+	var time: float
+	
+	func _init(name, time):
+		self.name = name
+		self.time = time
+
+class Order:
+	var hero: String
+	var dish: Dish
+	var current_time: float
+
+	func _init(hero, dish):
+		self.hero = hero
+		self.dish = dish
+		self.current_time = 0.0
+
 # Listas para controle interno de pratos, herois e pedidos
 var heroes : Array[String] = ['deadpool', 'hulk', 'spider']
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
-var dishes : Array[Array] = [['Batata', 10], ['MacTudo', 30]] # [[nome do prato, tempo max de espera]]
-var orders : Array[Array] = [] # [[nome do heroi, nome do prato, tempo max de espera, tempo que passou]]
+var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)] # [[nome do prato, tempo max de espera]]
+var orders : Array[Order] = [] # [[nome do heroi, nome do prato, tempo max de espera, tempo que passou]]
+	
 
 func _ready() -> void:
 	score_label.text = "Score: " + str(current_score)
@@ -30,10 +49,16 @@ func _on_timer_timeout() -> void:
 # Itera sobre os pedidos existentes e apaga aqueles cujo tempo acabou
 func check_existing_orders() -> void:
 	for i in range(len(orders) - 1, -1, -1): # itera de tras para frente
-		var order : Array = orders[i]
-		order[3] += 1
-		if order[3] == order[2]: # tempo do pedido acabou
-			current_score -= order[2]/3 # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
+		var order : Order = orders[i]
+		order.current_time += 1
+		if order.current_time / order.dish.time >= 2.0/3.0:
+			var hero_texture_path : String = "res://assets/icons/heroes/%s.angry.png" % order.hero
+			orders_container.get_child(i).get_child(0).texture = load(hero_texture_path)
+		elif order.current_time / order.dish.time >= 1.0/3.0:
+			var hero_texture_path : String = "res://assets/icons/heroes/%s.normal.png" % order.hero
+			orders_container.get_child(i).get_child(0).texture = load(hero_texture_path)
+		if order.current_time == order.dish.time: # tempo do pedido acabou
+			current_score -= order.dish.time/3 # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
 			delete_order(order, i)
 
 # Loop do jogo, com as acoes de atualizacao da UI e de coordenacao/controle do jogo
@@ -53,19 +78,19 @@ func get_hero() -> String:
 	return hero
 	
 # Gera um prato aleatorio para ser adicionado a um pedido, retornando um array com o nome (string) e duracao (int) do pedido, nessa ordem
-func get_dish() -> Array:
+func get_dish() -> Dish:
 	var pos : int = rng.randf_range(0, len(dishes))
-	var dish : Array = dishes[pos]
+	var dish : Dish = dishes[pos]
 	return dish
 
 # Cria um pedido dado um heroi e um prato (Array[string, int] (nome do prato e duracao)) e o adiciona a tela
-func create_order(hero: String, dish: Array) -> void:
+func create_order(hero: String, dish: Dish) -> void:
 	# criar o pedido na lista de controle interno
-	orders.append([hero, dish[0], dish[1], 0]) # nome do heroi, nome do prato, tempo do prato, tempo que está demorando para fazer
+	orders.append(Order.new(hero, dish)) # nome do heroi, nome do prato, tempo do prato, tempo que está demorando para fazer
 	
 	# gerar os caminhos das texturas do heroi e do prato p/ adicionar na UI
 	var hero_texture_path : String = "res://assets/icons/heroes/%s.happy.png" % hero
-	var food_texture_path : String = "res://assets/icons/dishes/%s.png" % dish[0]
+	var food_texture_path : String = "res://assets/icons/dishes/%s.png" % dish.name
 	
 	# criar o painel que vai conter as duas texturas na tela (fundo cinza)
 	var panel = Panel.new()
@@ -91,10 +116,10 @@ func create_order(hero: String, dish: Array) -> void:
 	orders_container.add_child(panel)
 
 # Deleta um certo pedido (Array[String, String, int, int] (nome do heroi, nome do prato, tempo do prato, tempo que esta demorando para fazer))
-func delete_order(order : Array, index: int) -> void:
+func delete_order(order : Order, index: int) -> void:
 	# liberar o heroi em uso das listas internas
-	var hero : String = order[0]
-	heroes.append(hero)
+	#var hero : String = order.hero
+	#heroes.append(hero)
 	heroes_in_use.remove_at(index)
 	
 	# remover o pedido da lista interna de controle
