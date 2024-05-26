@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgvcvqyy36cyh"]
+
+[ext_resource type="FontFile" uid="uid://nbdc8tivefnq" path="res://assets/fonts/ARCADECLASSIC.TTF" id="1_p80ap"]
+[ext_resource type="Script" path="res://scenes/game_over.gd" id="1_xgx24"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v3yrs"]
+font = ExtResource("1_p80ap")
+font_size = 75
+
+[sub_resource type="LabelSettings" id="LabelSettings_kpnaf"]
+font = ExtResource("1_p80ap")
+font_size = 30
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xgx24")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1155.0
+offset_bottom = 652.0
+color = Color(0, 0.207843, 0.309804, 1)
+metadata/_edit_group_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="GameOverLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Game Over!"
+label_settings = SubResource("LabelSettings_v3yrs")
+
+[node name="PunctutationLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Points:  0"
+label_settings = SubResource("LabelSettings_kpnaf")

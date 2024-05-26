@@ -43,8 +43,12 @@ func _on_timer_timeout() -> void:
 	check_existing_orders()
 	if game_duration_seconds > 0:
 		game_loop()
-	else:
-		pass # TODO: mudar para a cena de gameover
+	else: # time's up. change to game over scene
+		var gameover_scene = preload("res://scenes/game_over.tscn").instantiate()
+		gameover_scene.call_deferred("set_score", current_score)
+		get_tree().root.add_child(gameover_scene)
+		get_tree().current_scene.queue_free()
+		get_tree().current_scene = gameover_scene
 
 # Itera sobre os pedidos existentes e apaga aqueles cujo tempo acabou
 func check_existing_orders() -> void:
