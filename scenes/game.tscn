@@ -3328,7 +3328,7 @@ zoom = Vector2(1.25, 1.25)
 
 [node name="Player" parent="." instance=ExtResource("2_li8ny")]
 y_sort_enabled = true
-position = Vector2(708, 260)
+position = Vector2(547, 283)
 scale = Vector2(1.5, 1.5)
 
 [node name="UserInterface" type="Control" parent="."]

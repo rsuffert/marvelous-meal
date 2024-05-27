@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dxil0nxvb3fxu"
+
+[deps]
+
+files=["res://assets/icons/heroes/heroes. normal.translation", "res://assets/icons/heroes/heroes. angry.translation"]
+
+source_file="res://assets/icons/heroes/heroes.csv"
+dest_files=["res://assets/icons/heroes/heroes. normal.translation", "res://assets/icons/heroes/heroes. angry.translation"]
+
+[params]
+
+compress=true
+delimiter=0
