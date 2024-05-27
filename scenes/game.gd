@@ -1,13 +1,17 @@
 extends Node2D
 
+const ORDERS_CREATION_INTERVAL = 10
+var rng = RandomNumberGenerator.new()
 @onready var game_duration_seconds : int = 60
 @onready var current_score : int = 0
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var orders_container = $UserInterface/OrdersContainer
-const ORDERS_CREATION_INTERVAL = 10
 
-var rng = RandomNumberGenerator.new()
+# exported variables that contain the path to the directories of scenes, dishes assets and heroes assets
+@export var scenes_dir_path : String = "res://scenes/"
+@export var dishes_dir_path : String = "res://assets/icons/dishes/"
+@export var heroes_dir_path : String = "res://assets/icons/heroes/"
 
 class Dish:
 	var name: String
@@ -32,7 +36,6 @@ var heroes : Array[String] = ['deadpool', 'hulk', 'spider']
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)] # [[nome do prato, tempo max de espera]]
 var orders : Array[Order] = [] # [[nome do heroi, nome do prato, tempo max de espera, tempo que passou]]
-	
 
 func _ready() -> void:
 	score_label.text = "Score: " + str(current_score)
@@ -44,7 +47,7 @@ func _on_timer_timeout() -> void:
 	if game_duration_seconds > 0:
 		game_loop()
 	else: # time's up. change to game over scene
-		var gameover_scene = preload("res://scenes/game_over.tscn").instantiate()
+		var gameover_scene = load(scenes_dir_path + "game_over.tscn").instantiate()
 		gameover_scene.call_deferred("set_score", current_score)
 		get_tree().root.add_child(gameover_scene)
 		get_tree().current_scene.queue_free()
@@ -56,10 +59,10 @@ func check_existing_orders() -> void:
 		var order : Order = orders[i]
 		order.current_time += 1
 		if order.current_time / order.dish.time >= 2.0/3.0:
-			var hero_texture_path : String = "res://assets/icons/heroes/%s.angry.png" % order.hero
+			var hero_texture_path : String = heroes_dir_path + "%s.angry.png" % order.hero
 			orders_container.get_child(i).get_child(0).texture = load(hero_texture_path)
 		elif order.current_time / order.dish.time >= 1.0/3.0:
-			var hero_texture_path : String = "res://assets/icons/heroes/%s.normal.png" % order.hero
+			var hero_texture_path : String = heroes_dir_path + "%s.normal.png" % order.hero
 			orders_container.get_child(i).get_child(0).texture = load(hero_texture_path)
 		if order.current_time == order.dish.time: # tempo do pedido acabou
 			current_score -= order.dish.time/3 # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
@@ -93,8 +96,8 @@ func create_order(hero: String, dish: Dish) -> void:
 	orders.append(Order.new(hero, dish)) # nome do heroi, nome do prato, tempo do prato, tempo que está demorando para fazer
 	
 	# gerar os caminhos das texturas do heroi e do prato p/ adicionar na UI
-	var hero_texture_path : String = "res://assets/icons/heroes/%s.happy.png" % hero
-	var food_texture_path : String = "res://assets/icons/dishes/%s.png" % dish.name
+	var hero_texture_path : String = heroes_dir_path + "%s.happy.png" % hero
+	var food_texture_path : String = dishes_dir_path + "%s.png" % dish.name
 	
 	# criar o painel que vai conter as duas texturas na tela (fundo cinza)
 	var panel = Panel.new()
