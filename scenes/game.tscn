@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d6en108cseun"]
+[gd_scene load_steps=15 format=3 uid="uid://d6en108cseun"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_ucdu8"]
 [ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/sprites/kitchen_v1.png" id="1_vwwbm"]
@@ -3299,6 +3299,11 @@ font_size = 35
 font = ExtResource("4_3q0xf")
 font_size = 35
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vwm0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k7q5w"]
+size = Vector2(64, 68.5)
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ucdu8")
 
@@ -3365,4 +3370,23 @@ alignment = 1
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
+[node name="IngredientsArea" type="Area2D" parent="."]
+position = Vector2(452, 180)
+scale = Vector2(7, 2)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="IngredientsArea"]
+shape = SubResource("RectangleShape2D_1vwm0")
+
+[node name="DeliveryArea" type="Area2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeliveryArea"]
+position = Vector2(371, 451.25)
+shape = SubResource("RectangleShape2D_k7q5w")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="IngredientsArea" to="." method="_on_ingredients_area_body_entered"]
+[connection signal="body_exited" from="IngredientsArea" to="." method="_on_ingredients_area_body_exited"]
+[connection signal="body_entered" from="DeliveryArea" to="." method="_on_delivery_area_body_entered"]
+[connection signal="body_exited" from="DeliveryArea" to="." method="_on_delivery_area_body_exited"]

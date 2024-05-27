@@ -7,6 +7,7 @@ var rng = RandomNumberGenerator.new()
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var orders_container = $UserInterface/OrdersContainer
+@onready var player : CharacterBody2D = $Player
 
 # exported variables that contain the path to the directories of scenes, dishes assets and heroes assets
 @export var scenes_dir_path : String = "res://scenes/"
@@ -136,3 +137,23 @@ func delete_order(order : Order, index: int) -> void:
 	var child : Panel = orders_container.get_child(index)
 	orders_container.remove_child(child)
 	child.queue_free()
+
+# Called when a body enters the delivery area
+func _on_delivery_area_body_entered(body: Node2D) -> void:
+	if body != player: return
+	print("Delivery area entered")
+
+# Called when a body leaves the delivery area
+func _on_delivery_area_body_exited(body: Node2D) -> void:
+	if body != player: return
+	print("Delivery area exited")
+
+# Called when a body enters the ingredients area
+func _on_ingredients_area_body_entered(body: Node2D) -> void:
+	if body != player: return
+	print("Ingredients area entered")
+
+# Called when a body leaves the ingredients area
+func _on_ingredients_area_body_exited(body: Node2D) -> void:
+	if body != player: return
+	print("Ingredients area exited")
