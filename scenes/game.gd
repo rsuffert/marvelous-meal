@@ -13,6 +13,7 @@ var rng = RandomNumberGenerator.new()
 @export var scenes_dir_path : String = "res://scenes/"
 @export var dishes_dir_path : String = "res://assets/icons/dishes/"
 @export var heroes_dir_path : String = "res://assets/icons/heroes/"
+@export var ingredients_dir_path : String = "res://assets/icons/ingredients/"
 
 class Dish:
 	var name: String
@@ -32,15 +33,45 @@ class Order:
 		self.dish = dish
 		self.current_time = 0.0
 
-# Listas para controle interno de pratos, herois e pedidos
+# Listas para controle interno de pratos, herois, pedidos e ingredientes
 var heroes : Array[String] = ['deadpool', 'hulk', 'spider']
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)] # [[nome do prato, tempo max de espera]]
 var orders : Array[Order] = [] # [[nome do heroi, nome do prato, tempo max de espera, tempo que passou]]
+var ingredients : Array[String] = []
+
+var ingredients_panel : Panel = Panel.new()
+var delivery_panel : Panel = Panel.new()
 
 func _ready() -> void:
+	# initialize score & time labels
 	score_label.text = "Score: " + str(current_score)
 	time_label.text = "Time: " + str(game_duration_seconds)
+	
+	# create ingredients panel
+	ingredients_panel.visible = false
+	ingredients_panel.name = "IngredientsPanel"
+	ingredients_panel.position = Vector2(50,100)
+	var ingredients_container = GridContainer.new()
+	ingredients_container.columns = 5
+	var ing_dir : DirAccess = DirAccess.open(ingredients_dir_path)
+	if ing_dir:
+		ing_dir.list_dir_begin()
+		var file_name : String = ing_dir.get_next()
+		while file_name != "":
+			if not ing_dir.current_is_dir() and file_name.ends_with(".png"):
+				var button : TextureButton = TextureButton.new()
+				button.name = file_name.split(".")[0]
+				button.texture_normal = load(ingredients_dir_path + file_name)
+				# TODO: style the button and make it bigger
+				button.set_size(Vector2(64,64))
+				button.connect("pressed", func(): _on_ingredient_button_pressed(button))
+				ingredients_container.add_child(button)
+			file_name = ing_dir.get_next()
+	ingredients_panel.add_child(ingredients_container)
+	$UserInterface.add_child(ingredients_panel)
+	
+	# TODO: create delivery (orders) panel
 
 # Chamada a cada segundo
 func _on_timer_timeout() -> void:
@@ -141,20 +172,24 @@ func delete_order(order : Order, index: int) -> void:
 
 # Called when a body enters the delivery area
 func _on_delivery_area_body_entered(body: Node2D) -> void:
-	if body != player: return
-	print("Delivery area entered")
+	if body == player:
+		delivery_panel.visible = true
 
 # Called when a body leaves the delivery area
 func _on_delivery_area_body_exited(body: Node2D) -> void:
-	if body != player: return
-	print("Delivery area exited")
+	if body == player:
+		delivery_panel.visible = false
 
 # Called when a body enters the ingredients area
 func _on_ingredients_area_body_entered(body: Node2D) -> void:
-	if body != player: return
-	print("Ingredients area entered")
+	if body == player:
+		ingredients_panel.visible = true
 
 # Called when a body leaves the ingredients area
 func _on_ingredients_area_body_exited(body: Node2D) -> void:
-	if body != player: return
-	print("Ingredients area exited")
+	if body == player:
+		ingredients_panel.visible = false
+
+# Called when an ingredient button is pressed, receiving as parameter a reference to the button that was clicked
+func _on_ingredient_button_pressed(button : TextureButton) -> void:
+	print("Button pressed: " + button.name)
