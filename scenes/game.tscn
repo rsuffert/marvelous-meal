@@ -3882,11 +3882,11 @@ sources/2 = SubResource("TileSetAtlasSource_u0t4p")
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ila7"]
 font = ExtResource("4_3q0xf")
-font_size = 35
+font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_mrtj8"]
 font = ExtResource("4_3q0xf")
-font_size = 35
+font_size = 30
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1vwm0"]
 size = Vector2(39, 72)
@@ -3929,18 +3929,18 @@ scale = Vector2(1.5, 1.5)
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -73.0
-offset_top = -27.0
-offset_right = -33.0
-offset_bottom = 13.0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 46.0
+offset_bottom = 43.0
 metadata/_edit_group_ = true
 
 [node name="StatsContainer" type="VBoxContainer" parent="UserInterface"]
 layout_mode = 0
-offset_left = 96.0
-offset_top = 10.0
-offset_right = 206.0
-offset_bottom = 78.0
+offset_left = 6.0
+offset_top = -6.0
+offset_right = 116.0
+offset_bottom = 70.0
 metadata/_edit_group_ = true
 
 [node name="ScoreLabel" type="Label" parent="UserInterface/StatsContainer"]
@@ -3953,11 +3953,12 @@ label_settings = SubResource("LabelSettings_mrtj8")
 
 [node name="OrdersContainer" type="HBoxContainer" parent="UserInterface"]
 layout_mode = 0
-offset_left = 272.0
-offset_top = 21.0
-offset_right = 988.0
-offset_bottom = 85.0
+offset_left = 151.0
+offset_top = 1.0
+offset_right = 755.0
+offset_bottom = 50.0
 alignment = 1
+metadata/_edit_group_ = true
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

@@ -100,21 +100,22 @@ func create_order(hero: String, dish: Dish) -> void:
 	var hero_texture_path : String = heroes_dir_path + "%s.happy.png" % hero
 	var food_texture_path : String = dishes_dir_path + "%s.png" % dish.name
 	
-	# criar o painel que vai conter as duas texturas na tela (fundo cinza)
-	var panel = Panel.new()
-	panel.custom_minimum_size = Vector2(120,0)
-	
 	# carregar as texturas em dois objetos TextureRect e arrumar os tamanhos, posicao no painel etc.
 	var hero_icon : TextureRect = TextureRect.new()
-	hero_icon.size = Vector2(64, 64)
+	hero_icon.size = Vector2(45, 45)
 	hero_icon.texture = load(hero_texture_path)
 	hero_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	hero_icon.position = Vector2(0, 0)
 	var food_icon : TextureRect = TextureRect.new()
-	food_icon.size = Vector2(64, 64)
+	food_icon.size = Vector2(45, 45)
 	food_icon.texture = load(food_texture_path)
 	food_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	food_icon.position = Vector2(64, 0)
+	food_icon.position = Vector2(45, 0)
+	
+	# criar o painel que vai conter as duas texturas na tela (fundo cinza)
+	var panel = Panel.new()
+	panel.custom_minimum_size = Vector2(hero_icon.size.x + food_icon.size.x, max(hero_icon.size.y, food_icon.size.y))
+	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	
 	# adicionar as texturas carregadas no painel
 	panel.add_child(hero_icon)
