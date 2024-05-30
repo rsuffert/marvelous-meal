@@ -3889,7 +3889,7 @@ font = ExtResource("4_3q0xf")
 font_size = 30
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1vwm0"]
-size = Vector2(39, 72)
+size = Vector2(40.5714, 80.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7q5w"]
 size = Vector2(115.653, 112.492)
@@ -3969,7 +3969,7 @@ scale = Vector2(7, 2)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="IngredientsArea"]
-position = Vector2(9.5, 26)
+position = Vector2(8.71429, 26.75)
 shape = SubResource("RectangleShape2D_1vwm0")
 
 [node name="DeliveryArea" type="Area2D" parent="."]

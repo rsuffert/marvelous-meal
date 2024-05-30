@@ -51,27 +51,23 @@ func _ready() -> void:
 	# create ingredients panel
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
-	ingredients_panel.position = Vector2(50,100)
-	var ingredients_container = GridContainer.new()
-	ingredients_container.columns = 5
+	ingredients_panel.position = Vector2(10,80)
+	var ingredients_container : GridContainer = GridContainer.new()
+	ingredients_container.columns = 4
 	var ing_dir : DirAccess = DirAccess.open(ingredients_dir_path)
 	if ing_dir:
 		ing_dir.list_dir_begin()
 		var file_name : String = ing_dir.get_next()
 		while file_name != "":
 			if not ing_dir.current_is_dir() and file_name.ends_with(".png"):
-				var button : TextureButton = TextureButton.new()
-				button.name = file_name.split(".")[0]
-				button.texture_normal = load(ingredients_dir_path + file_name)
-				# TODO: style the button and make it bigger
-				button.set_size(Vector2(64,64))
-				button.connect("pressed", func(): _on_ingredient_button_pressed(button))
-				ingredients_container.add_child(button)
+				var checkbox : CheckBox = CheckBox.new()
+				checkbox.name = file_name.split(".")[0]
+				checkbox.icon = load(ingredients_dir_path + file_name)
+				checkbox.pressed.connect(func(): _on_ingredient_checkbox_toggled(checkbox))
+				ingredients_container.add_child(checkbox)
 			file_name = ing_dir.get_next()
 	ingredients_panel.add_child(ingredients_container)
 	$UserInterface.add_child(ingredients_panel)
-	
-	# TODO: create delivery (orders) panel
 
 # Chamada a cada segundo
 func _on_timer_timeout() -> void:
@@ -190,6 +186,6 @@ func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
 
-# Called when an ingredient button is pressed, receiving as parameter a reference to the button that was clicked
-func _on_ingredient_button_pressed(button : TextureButton) -> void:
-	print("Button pressed: " + button.name)
+# Called when an ingredient checkbox is toggled, receiving as parameter a reference to the checkbox that was toggled
+func _on_ingredient_checkbox_toggled(checkbox : CheckBox) -> void:
+	print("Checkbox checked: " + checkbox.name)
