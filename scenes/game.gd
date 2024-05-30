@@ -19,18 +19,18 @@ class Dish:
 	var name: String
 	var time: float
 	
-	func _init(name, time):
-		self.name = name
-		self.time = time
+	func _init(_name, _time):
+		self.name = _name
+		self.time = _time
 
 class Order:
 	var hero: String
 	var dish: Dish
 	var current_time: float
 
-	func _init(hero, dish):
-		self.hero = hero
-		self.dish = dish
+	func _init(_hero, _dish):
+		self.hero = _hero
+		self.dish = _dish
 		self.current_time = 0.0
 
 # Listas para controle interno de pratos, herois, pedidos e ingredientes
@@ -63,12 +63,12 @@ func _ready() -> void:
 				var checkbox : CheckBox = CheckBox.new()
 				checkbox.name = file_name.split(".")[0]
 				checkbox.icon = load(ingredients_dir_path + file_name)
-				checkbox.pressed.connect(func(): _on_ingredient_checkbox_toggled(checkbox))
+				checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
 				ingredients_container.add_child(checkbox)
 			file_name = ing_dir.get_next()
 	ingredients_panel.add_child(ingredients_container)
 	$UserInterface.add_child(ingredients_panel)
-
+	
 # Chamada a cada segundo
 func _on_timer_timeout() -> void:
 	check_existing_orders()
@@ -93,7 +93,7 @@ func check_existing_orders() -> void:
 			var hero_texture_path : String = heroes_dir_path + "%s.normal.png" % order.hero
 			orders_container.get_child(i).get_child(0).texture = load(hero_texture_path)
 		if order.current_time == order.dish.time: # tempo do pedido acabou
-			current_score -= order.dish.time/3 # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
+			current_score -= int(order.dish.time/3) # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
 			delete_order(order, i)
 
 # Loop do jogo, com as acoes de atualizacao da UI e de coordenacao/controle do jogo
@@ -106,7 +106,7 @@ func game_loop():
 
 # Gera um heroi aleatorio para ser adicionado a um pedido, retornando seu nome
 func get_hero() -> String:
-	var pos : int = rng.randf_range(0, len(heroes))
+	var pos : int = rng.randi_range(0, len(heroes))
 	var hero : String = heroes[pos]
 	heroes_in_use.append(hero)
 	heroes.remove_at(pos)
@@ -114,7 +114,7 @@ func get_hero() -> String:
 	
 # Gera um prato aleatorio para ser adicionado a um pedido, retornando um array com o nome (string) e duracao (int) do pedido, nessa ordem
 func get_dish() -> Dish:
-	var pos : int = rng.randf_range(0, len(dishes))
+	var pos : int = rng.randi_range(0, len(dishes))
 	var dish : Dish = dishes[pos]
 	return dish
 
@@ -186,6 +186,9 @@ func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
 
-# Called when an ingredient checkbox is toggled, receiving as parameter a reference to the checkbox that was toggled
-func _on_ingredient_checkbox_toggled(checkbox : CheckBox) -> void:
-	print("Checkbox checked: " + checkbox.name)
+# Called when an ingredient checkbox is toggled, receiving as parameter a reference to the checkbox that was toggled and whether or not it is checked
+func _on_ingredient_checkbox_toggled(checkbox : CheckBox, checked : bool) -> void:
+	if checked: 
+		print("Checked: " + checkbox.name)
+	else:
+		print("Unchecked: " + checkbox.name)
