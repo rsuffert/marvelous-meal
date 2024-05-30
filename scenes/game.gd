@@ -36,8 +36,8 @@ class Order:
 # Listas para controle interno de pratos, herois, pedidos e ingredientes
 var heroes : Array[String] = ['deadpool', 'hulk', 'spider']
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
-var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)] # [[nome do prato, tempo max de espera]]
-var orders : Array[Order] = [] # [[nome do heroi, nome do prato, tempo max de espera, tempo que passou]]
+var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)]
+var orders : Array[Order] = []
 var ingredients : Array[String] = []
 
 var ingredients_panel : Panel = Panel.new()
@@ -51,7 +51,7 @@ func _ready() -> void:
 	# create ingredients panel
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
-	ingredients_panel.position = Vector2(10,80)
+	ingredients_panel.position = Vector2(0,70)
 	var ingredients_container : GridContainer = GridContainer.new()
 	ingredients_container.columns = 4
 	var ing_dir : DirAccess = DirAccess.open(ingredients_dir_path)
@@ -64,8 +64,10 @@ func _ready() -> void:
 				checkbox.name = file_name.split(".")[0]
 				checkbox.icon = load(ingredients_dir_path + file_name)
 				checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
+				checkbox.tooltip_text = checkbox.name
 				ingredients_container.add_child(checkbox)
 			file_name = ing_dir.get_next()
+	ingredients_container.scale = Vector2(1.25, 1.25)
 	ingredients_panel.add_child(ingredients_container)
 	$UserInterface.add_child(ingredients_panel)
 	
@@ -106,7 +108,7 @@ func game_loop():
 
 # Gera um heroi aleatorio para ser adicionado a um pedido, retornando seu nome
 func get_hero() -> String:
-	var pos : int = rng.randi_range(0, len(heroes))
+	var pos : int = rng.randi_range(0, len(heroes)-1)
 	var hero : String = heroes[pos]
 	heroes_in_use.append(hero)
 	heroes.remove_at(pos)
@@ -114,7 +116,7 @@ func get_hero() -> String:
 	
 # Gera um prato aleatorio para ser adicionado a um pedido, retornando um array com o nome (string) e duracao (int) do pedido, nessa ordem
 func get_dish() -> Dish:
-	var pos : int = rng.randi_range(0, len(dishes))
+	var pos : int = rng.randi_range(0, len(dishes)-1)
 	var dish : Dish = dishes[pos]
 	return dish
 
