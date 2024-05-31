@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dluo3cee88p52"
-path="res://.godot/imported/PepperRed.png-7ac2fad2580958b7391dc82ab8b1554d.ctex"
+uid="uid://cht05ntvn08q3"
+path="res://.godot/imported/Red-Potato.png-5f8e1f674fc10c0fc1f8a873e080db0c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/PepperRed.png"
-dest_files=["res://.godot/imported/PepperRed.png-7ac2fad2580958b7391dc82ab8b1554d.ctex"]
+source_file="res://assets/icons/ingredients/Red-Potato.png"
+dest_files=["res://.godot/imported/Red-Potato.png-5f8e1f674fc10c0fc1f8a873e080db0c.ctex"]
 
 [params]
 

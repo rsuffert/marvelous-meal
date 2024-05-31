@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drt6sxc4fn3ji"
-path="res://.godot/imported/PieApple.png-7a9e169999d720177eaaafea4b50308f.ctex"
+uid="uid://dluo3cee88p52"
+path="res://.godot/imported/Pepper-Red.png-1ba7a59ca428de3604028898d6547670.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/PieApple.png"
-dest_files=["res://.godot/imported/PieApple.png-7a9e169999d720177eaaafea4b50308f.ctex"]
+source_file="res://assets/icons/ingredients/Pepper-Red.png"
+dest_files=["res://.godot/imported/Pepper-Red.png-1ba7a59ca428de3604028898d6547670.ctex"]
 
 [params]
 

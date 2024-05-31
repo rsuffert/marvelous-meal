@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dp0gmude4hwek"
-path="res://.godot/imported/PieLemon.png-fc1897b12de9ddc2c06533aa8799fbf8.ctex"
+uid="uid://drt6sxc4fn3ji"
+path="res://.godot/imported/Apple-Pie.png-686a5927f3c15a8c332b3787646551a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/PieLemon.png"
-dest_files=["res://.godot/imported/PieLemon.png-fc1897b12de9ddc2c06533aa8799fbf8.ctex"]
+source_file="res://assets/icons/ingredients/Apple-Pie.png"
+dest_files=["res://.godot/imported/Apple-Pie.png-686a5927f3c15a8c332b3787646551a5.ctex"]
 
 [params]
 

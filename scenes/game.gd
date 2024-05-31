@@ -38,7 +38,7 @@ var heroes : Array[String] = ['deadpool', 'hulk', 'spider']
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)]
 var orders : Array[Order] = []
-var ingredients : Array[String] = []
+var ingredients : Array[String] = [] # currently selected ingredients
 
 var ingredients_panel : Panel = Panel.new()
 var delivery_panel : Panel = Panel.new()
@@ -54,6 +54,7 @@ func _ready() -> void:
 	ingredients_panel.position = Vector2(0,70)
 	var ingredients_container : GridContainer = GridContainer.new()
 	ingredients_container.columns = 4
+	ingredients_container.scale = Vector2(1.25, 1.25)
 	var ing_dir : DirAccess = DirAccess.open(ingredients_dir_path)
 	if ing_dir:
 		ing_dir.list_dir_begin()
@@ -61,13 +62,13 @@ func _ready() -> void:
 		while file_name != "":
 			if not ing_dir.current_is_dir() and file_name.ends_with(".png"):
 				var checkbox : CheckBox = CheckBox.new()
-				checkbox.name = file_name.split(".")[0]
+				checkbox.tooltip_text = file_name.split(".")[0]
+				checkbox.name = checkbox.tooltip_text + "IngredientCheckBox"
+				checkbox.tooltip_text = checkbox.tooltip_text.replace("-", " ")
 				checkbox.icon = load(ingredients_dir_path + file_name)
 				checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
-				checkbox.tooltip_text = checkbox.name
 				ingredients_container.add_child(checkbox)
 			file_name = ing_dir.get_next()
-	ingredients_container.scale = Vector2(1.25, 1.25)
 	ingredients_panel.add_child(ingredients_container)
 	$UserInterface.add_child(ingredients_panel)
 	
@@ -133,11 +134,13 @@ func create_order(hero: String, dish: Dish) -> void:
 	var hero_icon : TextureRect = TextureRect.new()
 	hero_icon.size = Vector2(45, 45)
 	hero_icon.texture = load(hero_texture_path)
+	hero_icon.tooltip_text = hero.capitalize()
 	hero_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	hero_icon.position = Vector2(0, 0)
 	var food_icon : TextureRect = TextureRect.new()
 	food_icon.size = Vector2(45, 45)
 	food_icon.texture = load(food_texture_path)
+	food_icon.tooltip_text = dish.name.capitalize()
 	food_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	food_icon.position = Vector2(45, 0)
 	
@@ -187,10 +190,15 @@ func _on_ingredients_area_body_entered(body: Node2D) -> void:
 func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
+	
+	# disable all checkboxes in ingredients_panel
+	#for child in ingredients_panel.get_child(0).get_children():
+	#	if child is CheckBox:
+	#		child.set_pressed(false)
 
 # Called when an ingredient checkbox is toggled, receiving as parameter a reference to the checkbox that was toggled and whether or not it is checked
 func _on_ingredient_checkbox_toggled(checkbox : CheckBox, checked : bool) -> void:
-	if checked: 
-		print("Checked: " + checkbox.name)
+	if checked:
+		ingredients.append(checkbox.tooltip_text)
 	else:
-		print("Unchecked: " + checkbox.name)
+		ingredients.remove_at(ingredients.find(checkbox.tooltip_text))
