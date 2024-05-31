@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bjsjwpjchbgng"
-path="res://.godot/imported/spider.normal.png-c01b102b963c5687f71c4d5a81ca7a53.ctex"
+path="res://.godot/imported/spiderman.normal.png-caffe6715d45d4839bcd89627a87fc16.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/heroes/spider.normal.png"
-dest_files=["res://.godot/imported/spider.normal.png-c01b102b963c5687f71c4d5a81ca7a53.ctex"]
+source_file="res://assets/icons/heroes/spiderman.normal.png"
+dest_files=["res://.godot/imported/spiderman.normal.png-caffe6715d45d4839bcd89627a87fc16.ctex"]
 
 [params]
 

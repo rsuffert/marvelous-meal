@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de5h35jme81uc"
-path="res://.godot/imported/spider.angry.png-3f97351084ca707dbf6eb11587d32334.ctex"
+uid="uid://i27hsifgtvkh"
+path="res://.godot/imported/spiderman.happy.png-c46fd978eb117222f26c8c1468e6d2a8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/heroes/spider.angry.png"
-dest_files=["res://.godot/imported/spider.angry.png-3f97351084ca707dbf6eb11587d32334.ctex"]
+source_file="res://assets/icons/heroes/spiderman.happy.png"
+dest_files=["res://.godot/imported/spiderman.happy.png-c46fd978eb117222f26c8c1468e6d2a8.ctex"]
 
 [params]
 

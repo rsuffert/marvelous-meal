@@ -34,7 +34,7 @@ class Order:
 		self.current_time = 0.0
 
 # Listas para controle interno de pratos, herois, pedidos e ingredientes
-var heroes : Array[String] = ['deadpool', 'hulk', 'spider']
+var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman']
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)]
 var orders : Array[Order] = []
@@ -89,12 +89,17 @@ func check_existing_orders() -> void:
 	for i in range(len(orders) - 1, -1, -1): # itera de tras para frente
 		var order : Order = orders[i]
 		order.current_time += 1
-		if order.current_time / order.dish.time >= 2.0/3.0:
-			var hero_texture_path : String = heroes_dir_path + "%s.angry.png" % order.hero
-			orders_container.get_child(i).get_child(0).texture = load(hero_texture_path)
-		elif order.current_time / order.dish.time >= 1.0/3.0:
-			var hero_texture_path : String = heroes_dir_path + "%s.normal.png" % order.hero
-			orders_container.get_child(i).get_child(0).texture = load(hero_texture_path)
+		var hero_texture : TextureRect = orders_container.get_child(i).get_child(0)
+		# atualizar imagem dos herois de acordo com o tempo transcorrido (humor)
+		if order.current_time / order.dish.time >= 2.0/3.0: # humor "bravo" (angry)
+			var new_hero_texture_path : String = heroes_dir_path + "%s.angry.png" % order.hero
+			hero_texture.texture = load(new_hero_texture_path)
+			hero_texture.tooltip_text = order.hero.capitalize() + " (angry)"
+		elif order.current_time / order.dish.time >= 1.0/3.0: # humor "normal"
+			var new_hero_texture_path : String = heroes_dir_path + "%s.normal.png" % order.hero
+			hero_texture.texture = load(new_hero_texture_path)
+			hero_texture.tooltip_text = order.hero.capitalize() + " (normal)"
+			
 		if order.current_time == order.dish.time: # tempo do pedido acabou
 			current_score -= int(order.dish.time/3) # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
 			delete_order(order, i)
@@ -134,7 +139,7 @@ func create_order(hero: String, dish: Dish) -> void:
 	var hero_icon : TextureRect = TextureRect.new()
 	hero_icon.size = Vector2(45, 45)
 	hero_icon.texture = load(hero_texture_path)
-	hero_icon.tooltip_text = hero.capitalize()
+	hero_icon.tooltip_text = hero.capitalize() + " (happy)"
 	hero_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	hero_icon.position = Vector2(0, 0)
 	var food_icon : TextureRect = TextureRect.new()
@@ -190,11 +195,12 @@ func _on_ingredients_area_body_entered(body: Node2D) -> void:
 func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
-	
-	# disable all checkboxes in ingredients_panel
-	#for child in ingredients_panel.get_child(0).get_children():
-	#	if child is CheckBox:
-	#		child.set_pressed(false)
+
+# Enables or disables all checkboxes in a panel (ingredients or delivery panel)
+func set_panel_checkboxes(panel : Panel, pressed: bool) -> void:
+	for child in panel.get_child(0).get_children():
+		if child is CheckBox:
+			child.set_pressed(pressed)
 
 # Called when an ingredient checkbox is toggled, receiving as parameter a reference to the checkbox that was toggled and whether or not it is checked
 func _on_ingredient_checkbox_toggled(checkbox : CheckBox, checked : bool) -> void:
