@@ -8,12 +8,14 @@ var rng = RandomNumberGenerator.new()
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var orders_container = $UserInterface/OrdersContainer
 @onready var player : CharacterBody2D = $Player
+var dishes_buttons_container : GridContainer = null
 
 # exported variables that contain the path to the directories of scenes, dishes assets and heroes assets
 @export var scenes_dir_path : String = "res://scenes/"
 @export var dishes_dir_path : String = "res://assets/icons/dishes/"
 @export var heroes_dir_path : String = "res://assets/icons/heroes/"
 @export var ingredients_dir_path : String = "res://assets/icons/ingredients/"
+@export var game_font_path : String = "res://assets/fonts/ARCADECLASSIC.TTF"
 
 class Dish:
 	var name: String
@@ -46,30 +48,6 @@ var ingredients_panel : Panel = Panel.new()
 var dishes_panel : Panel = Panel.new()
 var delivery_panel : Panel = Panel.new()
 
-func plate_button_clicked():
-	ingredients_panel.visible = false
-	var dishse_vbox : VBoxContainer = VBoxContainer.new()
-	var dishes_container : GridContainer = GridContainer.new()
-	dishes_container.columns = 2
-	dishes_container.scale = Vector2(1.75, 1.75)
-	for dish in dishes:
-		var checkbox : CheckBox = CheckBox.new()
-		checkbox.tooltip_text = dish.name
-		checkbox.name = checkbox.tooltip_text + "DishCheckBox"
-		var food_texture_path : String = dishes_dir_path + "%s.png" % dish.name
-		checkbox.expand_icon = true
-		checkbox.icon = load(food_texture_path)
-		#checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
-		dishes_container.add_child(checkbox)
-	var plate_button : Button = Button.new()
-	plate_button.text = 'Montar prato'
-	plate_button.position = Vector2(0,35)
-	plate_button.pressed.connect(plate_button_clicked)
-	dishse_vbox.add_child(dishes_container)
-	dishse_vbox.add_child(plate_button)
-	dishes_panel.add_child(dishse_vbox)
-	$UserInterface.add_child(dishes_panel)
-
 func _ready() -> void:
 	# initialize score & time labels
 	score_label.text = "Score: " + str(current_score)
@@ -97,14 +75,31 @@ func _ready() -> void:
 				checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
 				ingredients_container.add_child(checkbox)
 			file_name = ing_dir.get_next()
-	var plate_button : Button = Button.new()
-	plate_button.text = 'Escolher prato'
-	plate_button.position = Vector2(0,35)
-	plate_button.pressed.connect(plate_button_clicked)
+	var create_dish_button : Button = Button.new()
+	create_dish_button.text = 'Create dish'
+	create_dish_button.pressed.connect(_on_create_dish_button_pressed)
 	ingredients_vbox.add_child(ingredients_container)
-	ingredients_vbox.add_child(plate_button)
+	ingredients_vbox.add_child(create_dish_button)
 	ingredients_panel.add_child(ingredients_vbox)
 	$UserInterface.add_child(ingredients_panel)
+	
+	# create dishes panel
+	dishes_panel.visible = false
+	dishes_panel.name = "DishesPanel"
+	dishes_panel.position = Vector2(0,70)
+	var dishes_vbox : VBoxContainer = VBoxContainer.new()
+	var dishes_container : GridContainer = GridContainer.new()
+	dishes_container.columns = 2
+	var label : Label = Label.new()
+	label.text = "Select  a  dish  to  pick  up:"
+	label.add_theme_font_size_override("font_size", 80)
+	var font = load(game_font_path)
+	label.add_theme_font_override("font", font)
+	dishes_vbox.add_child(label)
+	dishes_vbox.add_child(dishes_container)
+	dishes_panel.add_child(dishes_vbox)
+	$UserInterface.add_child(dishes_panel)
+	dishes_buttons_container = dishes_container
 	
 # Chamada a cada segundo
 func _on_timer_timeout() -> void:
@@ -229,10 +224,12 @@ func _on_ingredients_area_body_entered(body: Node2D) -> void:
 func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
+		dishes_panel.visible = false
+		set_panel_checkboxes(ingredients_panel, false)
 
 # Enables or disables all checkboxes in a panel (ingredients or delivery panel)
 func set_panel_checkboxes(panel : Panel, pressed: bool) -> void:
-	for child in panel.get_child(0).get_children():
+	for child in panel.get_child(0).get_child(0).get_children():
 		if child is CheckBox:
 			child.set_pressed(pressed)
 
@@ -242,3 +239,35 @@ func _on_ingredient_checkbox_toggled(checkbox : CheckBox, checked : bool) -> voi
 		ingredients.append(checkbox.tooltip_text)
 	else:
 		ingredients.remove_at(ingredients.find(checkbox.tooltip_text))
+
+# Replaces the ingredients panel with the dishes panel
+func _on_create_dish_button_pressed() -> void:
+	ingredients_panel.visible = false
+	
+	# remove current plates being rendered
+	for child in dishes_buttons_container.get_children():
+		child.queue_free()
+		
+	# populate dishes panel with possible dishes using the ingredients currently selected (when clicked, add dish to player's inventory)
+	for dish in dishes:
+		if are_all_elements_present(dish.ingredients, ingredients): # this dish can be produced with selected ingredients
+			var button : Button = Button.new()
+			button.tooltip_text = dish.name
+			button.name = dish.name + "PossibleButton"
+			button.icon = load(dishes_dir_path + dish.name + ".png")
+			button.pressed.connect(func(): _on_possible_dish_button_pressed(button))
+			dishes_buttons_container.add_child(button)
+	dishes_panel.scale = Vector2(0.2,0.2)
+	dishes_panel.visible = true
+
+# Called when a possible dish button is pressed
+func _on_possible_dish_button_pressed(button: Button):
+	pass
+	# TODO: implement this logic
+
+# Checks if all elements in list1 are present in list2
+func are_all_elements_present(list1: Array, list2: Array) -> bool:
+	for e in list1:
+		if e not in list2:
+			return false
+	return true
