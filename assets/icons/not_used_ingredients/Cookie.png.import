@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbevebtxikjev"
-path="res://.godot/imported/Sashimi.png-91912469283083fbc2e75b58ffa4490b.ctex"
+uid="uid://t6loxnnh1eb1"
+path="res://.godot/imported/Cookie.png-2830c6b4338a6730967a74a3936c663d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Sashimi.png"
-dest_files=["res://.godot/imported/Sashimi.png-91912469283083fbc2e75b58ffa4490b.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Cookie.png"
+dest_files=["res://.godot/imported/Cookie.png-2830c6b4338a6730967a74a3936c663d.ctex"]
 
 [params]
 

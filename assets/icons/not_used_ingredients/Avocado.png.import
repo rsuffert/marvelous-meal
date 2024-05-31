@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccmudjp0k57sl"
-path="res://.godot/imported/Wine.png-5f741dd4819fd3ed13c1bff7800d0b5f.ctex"
+uid="uid://1ycou7rwltu8"
+path="res://.godot/imported/Avocado.png-e57533270d4db0effeef5fd415db31eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Wine.png"
-dest_files=["res://.godot/imported/Wine.png-5f741dd4819fd3ed13c1bff7800d0b5f.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Avocado.png"
+dest_files=["res://.godot/imported/Avocado.png-e57533270d4db0effeef5fd415db31eb.ctex"]
 
 [params]
 

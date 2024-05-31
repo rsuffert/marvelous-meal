@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjlfino6odmw0"
-path="res://.godot/imported/Pepperoni.png-2a1b7e3104a0af2aad52b696cc024658.ctex"
+uid="uid://bbevebtxikjev"
+path="res://.godot/imported/Sashimi.png-f4240c767ad36c702d709adc9a2fe9c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Pepperoni.png"
-dest_files=["res://.godot/imported/Pepperoni.png-2a1b7e3104a0af2aad52b696cc024658.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Sashimi.png"
+dest_files=["res://.godot/imported/Sashimi.png-f4240c767ad36c702d709adc9a2fe9c4.ctex"]
 
 [params]
 

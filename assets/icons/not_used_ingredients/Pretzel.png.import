@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dp0gmude4hwek"
-path="res://.godot/imported/Lemon-Pie.png-2f2e9f5c042d1106db4fb43848982dba.ctex"
+uid="uid://cqe7vfy18gw5m"
+path="res://.godot/imported/Pretzel.png-880d48e461532dd2804b7ae91769dce9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Lemon-Pie.png"
-dest_files=["res://.godot/imported/Lemon-Pie.png-2f2e9f5c042d1106db4fb43848982dba.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Pretzel.png"
+dest_files=["res://.godot/imported/Pretzel.png-880d48e461532dd2804b7ae91769dce9.ctex"]
 
 [params]
 

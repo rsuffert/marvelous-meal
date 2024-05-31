@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t6loxnnh1eb1"
-path="res://.godot/imported/Cookie.png-f8fe9a1052a82225278b8717cf36ee68.ctex"
+uid="uid://dxvc2mu312t48"
+path="res://.godot/imported/Eggs.png-949fce99a3acb5de268c75ed8f3a921e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Cookie.png"
-dest_files=["res://.godot/imported/Cookie.png-f8fe9a1052a82225278b8717cf36ee68.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Eggs.png"
+dest_files=["res://.godot/imported/Eggs.png-949fce99a3acb5de268c75ed8f3a921e.ctex"]
 
 [params]
 

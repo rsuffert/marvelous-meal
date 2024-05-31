@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4sesjj8g1jxr"
-path="res://.godot/imported/Brownie.png-a67a15d3560d4f7750ab17ef3fa5361a.ctex"
+uid="uid://beaxdvtu7h455"
+path="res://.godot/imported/Jerky.png-84a09513e63431e978ae32c501ae7548.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Brownie.png"
-dest_files=["res://.godot/imported/Brownie.png-a67a15d3560d4f7750ab17ef3fa5361a.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Jerky.png"
+dest_files=["res://.godot/imported/Jerky.png-84a09513e63431e978ae32c501ae7548.ctex"]
 
 [params]
 

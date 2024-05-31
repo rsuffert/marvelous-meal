@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o170pfr4t6as"
-path="res://.godot/imported/Ribs.png-f8298f6254ce41f8851e870a3f3a8580.ctex"
+uid="uid://cpui534q1772y"
+path="res://.godot/imported/Sardines.png-87dbb34e6d5985dcd8893b64334364ea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Ribs.png"
-dest_files=["res://.godot/imported/Ribs.png-f8298f6254ce41f8851e870a3f3a8580.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Sardines.png"
+dest_files=["res://.godot/imported/Sardines.png-87dbb34e6d5985dcd8893b64334364ea.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drt6sxc4fn3ji"
-path="res://.godot/imported/Apple-Pie.png-686a5927f3c15a8c332b3787646551a5.ctex"
+uid="uid://6yp2ddq0djau"
+path="res://.godot/imported/Beer.png-6e97fe2396115c269824bb1383c3133f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Apple-Pie.png"
-dest_files=["res://.godot/imported/Apple-Pie.png-686a5927f3c15a8c332b3787646551a5.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Beer.png"
+dest_files=["res://.godot/imported/Beer.png-6e97fe2396115c269824bb1383c3133f.ctex"]
 
 [params]
 

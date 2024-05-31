@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkjcvlxdsjinb"
-path="res://.godot/imported/Honeycomb.png-27db81734fa04b2844a26bd85ff029a6.ctex"
+uid="uid://cnxafpjs7td2m"
+path="res://.godot/imported/Apple.png-9c93d19abbe6df9870c171facddceb3d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Honeycomb.png"
-dest_files=["res://.godot/imported/Honeycomb.png-27db81734fa04b2844a26bd85ff029a6.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Apple.png"
+dest_files=["res://.godot/imported/Apple.png-9c93d19abbe6df9870c171facddceb3d.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beaxdvtu7h455"
-path="res://.godot/imported/Jerky.png-14bb7167fb262600c218cc2121bd42d7.ctex"
+uid="uid://ca7g0tcqikrj8"
+path="res://.godot/imported/Olive.png-35558e5db583dc4a65529c13f752284e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Jerky.png"
-dest_files=["res://.godot/imported/Jerky.png-14bb7167fb262600c218cc2121bd42d7.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Olive.png"
+dest_files=["res://.godot/imported/Olive.png-35558e5db583dc4a65529c13f752284e.ctex"]
 
 [params]
 

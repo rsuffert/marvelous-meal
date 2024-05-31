@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7707vfk5r1wr"
-path="res://.godot/imported/Shrimp.png-ac38de76482334eb286e956850eeb5c6.ctex"
+uid="uid://dkjcvlxdsjinb"
+path="res://.godot/imported/Honeycomb.png-aa6f9a7f9d3e7d14f2deba0d21a16343.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Shrimp.png"
-dest_files=["res://.godot/imported/Shrimp.png-ac38de76482334eb286e956850eeb5c6.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Honeycomb.png"
+dest_files=["res://.godot/imported/Honeycomb.png-aa6f9a7f9d3e7d14f2deba0d21a16343.ctex"]
 
 [params]
 

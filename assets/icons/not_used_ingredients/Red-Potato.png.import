@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1ycou7rwltu8"
-path="res://.godot/imported/Avocado.png-0a7f1975adc4ba9bd6fca35f8f899dae.ctex"
+uid="uid://cht05ntvn08q3"
+path="res://.godot/imported/Red-Potato.png-089dab27a5b3bf2020ea8f6de95cf041.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Avocado.png"
-dest_files=["res://.godot/imported/Avocado.png-0a7f1975adc4ba9bd6fca35f8f899dae.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Red-Potato.png"
+dest_files=["res://.godot/imported/Red-Potato.png-089dab27a5b3bf2020ea8f6de95cf041.ctex"]
 
 [params]
 

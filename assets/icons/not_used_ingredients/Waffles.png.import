@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqe7vfy18gw5m"
-path="res://.godot/imported/Pretzel.png-53d52c817b5a85d7f72e4c5c906b37f4.ctex"
+uid="uid://dc0c2x8igouvj"
+path="res://.godot/imported/Waffles.png-dd86e9f7d6c833a6f72b147cb394ed89.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Pretzel.png"
-dest_files=["res://.godot/imported/Pretzel.png-53d52c817b5a85d7f72e4c5c906b37f4.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Waffles.png"
+dest_files=["res://.godot/imported/Waffles.png-dd86e9f7d6c833a6f72b147cb394ed89.ctex"]
 
 [params]
 

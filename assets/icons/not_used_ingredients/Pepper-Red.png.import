@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6yp2ddq0djau"
-path="res://.godot/imported/Beer.png-bfb273dc975fad8888aecaeb17a78322.ctex"
+uid="uid://dluo3cee88p52"
+path="res://.godot/imported/Pepper-Red.png-8c0ea50fdc177a6d7d8984e59afdf384.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Beer.png"
-dest_files=["res://.godot/imported/Beer.png-bfb273dc975fad8888aecaeb17a78322.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Pepper-Red.png"
+dest_files=["res://.godot/imported/Pepper-Red.png-8c0ea50fdc177a6d7d8984e59afdf384.ctex"]
 
 [params]
 

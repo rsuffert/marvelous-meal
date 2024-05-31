@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxvc2mu312t48"
-path="res://.godot/imported/Eggs.png-59aeca71126e779e4f0acc62f5f6a6ae.ctex"
+uid="uid://is4bita3pnd4"
+path="res://.godot/imported/Pineapple.png-aab25e79915462d7c998e7f40de9b46c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Eggs.png"
-dest_files=["res://.godot/imported/Eggs.png-59aeca71126e779e4f0acc62f5f6a6ae.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Pineapple.png"
+dest_files=["res://.godot/imported/Pineapple.png-aab25e79915462d7c998e7f40de9b46c.ctex"]
 
 [params]
 

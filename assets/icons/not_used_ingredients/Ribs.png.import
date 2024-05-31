@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dc0c2x8igouvj"
-path="res://.godot/imported/Waffles.png-1621f45981289e9eac9de49d4a82062e.ctex"
+uid="uid://o170pfr4t6as"
+path="res://.godot/imported/Ribs.png-0ada0ef216829b8e19f4ac97c1eacd21.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Waffles.png"
-dest_files=["res://.godot/imported/Waffles.png-1621f45981289e9eac9de49d4a82062e.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Ribs.png"
+dest_files=["res://.godot/imported/Ribs.png-0ada0ef216829b8e19f4ac97c1eacd21.ctex"]
 
 [params]
 

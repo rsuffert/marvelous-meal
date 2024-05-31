@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://deovb020pdbng"
-path="res://.godot/imported/Fish.png-526f9864733775cc0fcadd865a7f3f90.ctex"
+uid="uid://dslxu1cn4r11j"
+path="res://.godot/imported/Jam.png-506c8a3f22dfc3aec837e72c5cae8665.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Fish.png"
-dest_files=["res://.godot/imported/Fish.png-526f9864733775cc0fcadd865a7f3f90.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Jam.png"
+dest_files=["res://.godot/imported/Jam.png-506c8a3f22dfc3aec837e72c5cae8665.ctex"]
 
 [params]
 

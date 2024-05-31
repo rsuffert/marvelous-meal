@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdc2pym2e57mo"
-path="res://.godot/imported/Sausages.png-5a6c0b40a8cd38c9276155c62c841359.ctex"
+uid="uid://deovb020pdbng"
+path="res://.godot/imported/Fish.png-1147488807ab5ee2afe6aca36e892959.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Sausages.png"
-dest_files=["res://.godot/imported/Sausages.png-5a6c0b40a8cd38c9276155c62c841359.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Fish.png"
+dest_files=["res://.godot/imported/Fish.png-1147488807ab5ee2afe6aca36e892959.ctex"]
 
 [params]
 

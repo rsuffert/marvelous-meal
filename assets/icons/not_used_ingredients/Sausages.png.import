@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cht05ntvn08q3"
-path="res://.godot/imported/Red-Potato.png-5f8e1f674fc10c0fc1f8a873e080db0c.ctex"
+uid="uid://bdc2pym2e57mo"
+path="res://.godot/imported/Sausages.png-4c430f9e37284a1240049852093497dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Red-Potato.png"
-dest_files=["res://.godot/imported/Red-Potato.png-5f8e1f674fc10c0fc1f8a873e080db0c.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Sausages.png"
+dest_files=["res://.godot/imported/Sausages.png-4c430f9e37284a1240049852093497dc.ctex"]
 
 [params]
 

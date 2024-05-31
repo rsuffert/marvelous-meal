@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://is4bita3pnd4"
-path="res://.godot/imported/Pineapple.png-53da369b1cc99540e0a008937a0e392e.ctex"
+uid="uid://b6yemni5kwa1v"
+path="res://.godot/imported/Whiskey.png-d05092202c76371da1ca05cce06be3e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/ingredients/Pineapple.png"
-dest_files=["res://.godot/imported/Pineapple.png-53da369b1cc99540e0a008937a0e392e.ctex"]
+source_file="res://assets/icons/not_used_ingredients/Whiskey.png"
+dest_files=["res://.godot/imported/Whiskey.png-d05092202c76371da1ca05cce06be3e2.ctex"]
 
 [params]
 

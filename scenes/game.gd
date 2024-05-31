@@ -18,8 +18,10 @@ var rng = RandomNumberGenerator.new()
 class Dish:
 	var name: String
 	var time: float
+	var ingredients #Array[String]
 	
-	func _init(_name, _time):
+	func _init(_name, _time, _ingredients):
+		self.ingredients = _ingredients
 		self.name = _name
 		self.time = _time
 
@@ -36,12 +38,37 @@ class Order:
 # Listas para controle interno de pratos, herois, pedidos e ingredientes
 var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman']
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
-var dishes : Array[Dish] = [Dish.new('Batata', 10), Dish.new('MacTudo', 30)]
+var dishes : Array[Dish] = [Dish.new('Batata', 10, ['Potato']), Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])]
 var orders : Array[Order] = []
 var ingredients : Array[String] = [] # currently selected ingredients
 
 var ingredients_panel : Panel = Panel.new()
+var dishes_panel : Panel = Panel.new()
 var delivery_panel : Panel = Panel.new()
+
+func plate_button_clicked():
+	ingredients_panel.visible = false
+	var dishse_vbox : VBoxContainer = VBoxContainer.new()
+	var dishes_container : GridContainer = GridContainer.new()
+	dishes_container.columns = 2
+	dishes_container.scale = Vector2(1.75, 1.75)
+	for dish in dishes:
+		var checkbox : CheckBox = CheckBox.new()
+		checkbox.tooltip_text = dish.name
+		checkbox.name = checkbox.tooltip_text + "DishCheckBox"
+		var food_texture_path : String = dishes_dir_path + "%s.png" % dish.name
+		checkbox.expand_icon = true
+		checkbox.icon = load(food_texture_path)
+		#checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
+		dishes_container.add_child(checkbox)
+	var plate_button : Button = Button.new()
+	plate_button.text = 'Montar prato'
+	plate_button.position = Vector2(0,35)
+	plate_button.pressed.connect(plate_button_clicked)
+	dishse_vbox.add_child(dishes_container)
+	dishse_vbox.add_child(plate_button)
+	dishes_panel.add_child(dishse_vbox)
+	$UserInterface.add_child(dishes_panel)
 
 func _ready() -> void:
 	# initialize score & time labels
@@ -52,6 +79,7 @@ func _ready() -> void:
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
 	ingredients_panel.position = Vector2(0,70)
+	var ingredients_vbox : VBoxContainer = VBoxContainer.new()
 	var ingredients_container : GridContainer = GridContainer.new()
 	ingredients_container.columns = 4
 	ingredients_container.scale = Vector2(1.25, 1.25)
@@ -69,7 +97,13 @@ func _ready() -> void:
 				checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
 				ingredients_container.add_child(checkbox)
 			file_name = ing_dir.get_next()
-	ingredients_panel.add_child(ingredients_container)
+	var plate_button : Button = Button.new()
+	plate_button.text = 'Escolher prato'
+	plate_button.position = Vector2(0,35)
+	plate_button.pressed.connect(plate_button_clicked)
+	ingredients_vbox.add_child(ingredients_container)
+	ingredients_vbox.add_child(plate_button)
+	ingredients_panel.add_child(ingredients_vbox)
 	$UserInterface.add_child(ingredients_panel)
 	
 # Chamada a cada segundo
