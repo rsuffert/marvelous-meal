@@ -134,12 +134,12 @@ offset_right = 16.0
 offset_bottom = -17.0
 size_flags_horizontal = 4
 
-[node name="FoodBanner" type="Sprite2D" parent="Control"]
+[node name="DishBanner" type="Sprite2D" parent="Control"]
 position = Vector2(15, 17)
 scale = Vector2(0.296875, 0.34375)
 texture = ExtResource("3_njemu")
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="DishIcon" type="TextureRect" parent="Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -148,6 +148,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -8.5
 offset_top = -8.0
-offset_right = 8.5
+offset_right = 7.5
+offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
+expand_mode = 1

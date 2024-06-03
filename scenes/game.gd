@@ -261,8 +261,7 @@ func _on_create_dish_button_pressed() -> void:
 
 # Called when a possible dish button is pressed
 func _on_possible_dish_button_pressed(button: Button):
-	player.call('display_image_in_banner', button.icon)
-	pass
+	player.call('pickup_dish', button.icon, button.tooltip_text)
 
 # Checks if all elements in list1 are present in list2
 func are_all_elements_present(list1: Array, list2: Array) -> bool:
