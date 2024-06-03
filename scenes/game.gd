@@ -2,7 +2,7 @@ extends Node2D
 
 const ORDERS_CREATION_INTERVAL = 10
 var rng = RandomNumberGenerator.new()
-@onready var game_duration_seconds : int = 60
+@onready var game_duration_seconds : int = 100000
 @onready var current_score : int = 0
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
@@ -52,7 +52,6 @@ func _ready() -> void:
 	# initialize score & time labels
 	score_label.text = "Score:" + str(current_score)
 	time_label.text = "Time:" + str(game_duration_seconds)
-	
 	# create ingredients panel
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
@@ -262,8 +261,8 @@ func _on_create_dish_button_pressed() -> void:
 
 # Called when a possible dish button is pressed
 func _on_possible_dish_button_pressed(button: Button):
+	player.call('display_image_in_banner', button.icon)
 	pass
-	# TODO: implement this logic
 
 # Checks if all elements in list1 are present in list2
 func are_all_elements_present(list1: Array, list2: Array) -> bool:
