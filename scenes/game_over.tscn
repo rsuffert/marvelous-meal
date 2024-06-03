@@ -1,19 +1,19 @@
 [gd_scene load_steps=6 format=3 uid="uid://bgvcvqyy36cyh"]
 
-[ext_resource type="FontFile" uid="uid://nbdc8tivefnq" path="res://assets/fonts/ARCADECLASSIC.TTF" id="1_p80ap"]
 [ext_resource type="Script" path="res://scenes/game_over.gd" id="1_xgx24"]
+[ext_resource type="FontFile" uid="uid://du0hmqraa8qtr" path="res://assets/fonts/Emulogic-zrEw.ttf" id="2_58q5k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_v3yrs"]
-font = ExtResource("1_p80ap")
+font = ExtResource("2_58q5k")
 font_size = 75
 
 [sub_resource type="LabelSettings" id="LabelSettings_kpnaf"]
-font = ExtResource("1_p80ap")
-font_size = 30
+font = ExtResource("2_58q5k")
+font_size = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_corhv"]
-font = ExtResource("1_p80ap")
-font_size = 19
+font = ExtResource("2_58q5k")
+font_size = 15
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -50,12 +50,12 @@ label_settings = SubResource("LabelSettings_v3yrs")
 
 [node name="PunctutationLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "Points:  0"
+text = "Points:0"
 label_settings = SubResource("LabelSettings_kpnaf")
 horizontal_alignment = 1
 
 [node name="RestartInstructionLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "(Press  SPACE   to   restart)"
+text = "(Press SPACE to restart)"
 label_settings = SubResource("LabelSettings_corhv")
 horizontal_alignment = 1

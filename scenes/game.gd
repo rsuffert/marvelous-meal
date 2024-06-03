@@ -15,7 +15,7 @@ var dishes_buttons_container : GridContainer = null
 @export var dishes_dir_path : String = "res://assets/icons/dishes/"
 @export var heroes_dir_path : String = "res://assets/icons/heroes/"
 @export var ingredients_dir_path : String = "res://assets/icons/ingredients/"
-@export var game_font_path : String = "res://assets/fonts/ARCADECLASSIC.TTF"
+@export var game_font_path : String = "res://assets/fonts/Emulogic-zrEw.ttf"
 
 class Dish:
 	var name: String
@@ -50,13 +50,13 @@ var delivery_panel : Panel = Panel.new()
 
 func _ready() -> void:
 	# initialize score & time labels
-	score_label.text = "Score: " + str(current_score)
-	time_label.text = "Time: " + str(game_duration_seconds)
+	score_label.text = "Score:" + str(current_score)
+	time_label.text = "Time:" + str(game_duration_seconds)
 	
 	# create ingredients panel
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
-	ingredients_panel.position = Vector2(0,70)
+	ingredients_panel.position = Vector2(5,70)
 	var ingredients_vbox : VBoxContainer = VBoxContainer.new()
 	var ingredients_container : GridContainer = GridContainer.new()
 	ingredients_container.columns = 4
@@ -86,13 +86,13 @@ func _ready() -> void:
 	# create dishes panel
 	dishes_panel.visible = false
 	dishes_panel.name = "DishesPanel"
-	dishes_panel.position = Vector2(0,70)
+	dishes_panel.position = Vector2(5,70)
 	var dishes_vbox : VBoxContainer = VBoxContainer.new()
 	var dishes_container : GridContainer = GridContainer.new()
 	dishes_container.columns = 2
 	var label : Label = Label.new()
-	label.text = "Select  a  dish  to  pick  up:"
-	label.add_theme_font_size_override("font_size", 80)
+	label.text = "Select a dish to pick up:"
+	label.add_theme_font_size_override("font_size", 40)
 	var font = load(game_font_path)
 	label.add_theme_font_override("font", font)
 	dishes_vbox.add_child(label)
@@ -136,8 +136,8 @@ func check_existing_orders() -> void:
 # Loop do jogo, com as acoes de atualizacao da UI e de coordenacao/controle do jogo
 func game_loop():
 	game_duration_seconds -= 1
-	time_label.text = "Time: " + str(game_duration_seconds)
-	score_label.text = "Score: " + str(current_score)
+	time_label.text = "Time:" + str(game_duration_seconds)
+	score_label.text = "Score:" + str(current_score)
 	if game_duration_seconds % ORDERS_CREATION_INTERVAL == 0 and len(heroes) > 0:
 		create_order(get_hero(), get_dish())
 

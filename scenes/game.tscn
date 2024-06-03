@@ -1,11 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://d6en108cseun"]
+[gd_scene load_steps=16 format=3 uid="uid://d6en108cseun"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_ucdu8"]
 [ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/sprites/kitchen_v1.png" id="1_vwwbm"]
 [ext_resource type="PackedScene" uid="uid://oqimhaex6jk2" path="res://scenes/player.tscn" id="2_li8ny"]
 [ext_resource type="Texture2D" uid="uid://6ogbwn4krdh2" path="res://assets/sprites/Furniture.png" id="3_vijsm"]
-[ext_resource type="FontFile" uid="uid://nbdc8tivefnq" path="res://assets/fonts/ARCADECLASSIC.TTF" id="4_3q0xf"]
 [ext_resource type="Texture2D" uid="uid://bghrqngltaasc" path="res://assets/sprites/Tiles.png" id="4_cg0c7"]
+[ext_resource type="FontFile" uid="uid://du0hmqraa8qtr" path="res://assets/fonts/Emulogic-zrEw.ttf" id="6_4lgel"]
+[ext_resource type="AudioStream" path="res://assets/sounds/soundtrack.mp3" id="7_1bvtt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7gyc"]
 resource_name = "kitchen"
@@ -3881,12 +3882,12 @@ sources/1 = SubResource("TileSetAtlasSource_tk8cl")
 sources/2 = SubResource("TileSetAtlasSource_u0t4p")
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ila7"]
-font = ExtResource("4_3q0xf")
-font_size = 30
+font = ExtResource("6_4lgel")
+font_size = 20
 
 [sub_resource type="LabelSettings" id="LabelSettings_mrtj8"]
-font = ExtResource("4_3q0xf")
-font_size = 30
+font = ExtResource("6_4lgel")
+font_size = 20
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1vwm0"]
 size = Vector2(40.5714, 80.5)
@@ -3929,10 +3930,10 @@ scale = Vector2(1.5, 1.5)
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 6.0
-offset_top = 3.0
-offset_right = 46.0
-offset_bottom = 43.0
+offset_left = 3.0
+offset_top = 9.0
+offset_right = 43.0
+offset_bottom = 49.0
 metadata/_edit_group_ = true
 
 [node name="StatsContainer" type="VBoxContainer" parent="UserInterface"]
@@ -3954,9 +3955,9 @@ label_settings = SubResource("LabelSettings_mrtj8")
 [node name="OrdersContainer" type="HBoxContainer" parent="UserInterface"]
 layout_mode = 0
 offset_left = 151.0
-offset_top = 1.0
+offset_top = -3.0
 offset_right = 755.0
-offset_bottom = 50.0
+offset_bottom = 46.0
 alignment = 1
 metadata/_edit_group_ = true
 
@@ -3980,6 +3981,10 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeliveryArea"]
 position = Vector2(394.815, 444.59)
 shape = SubResource("RectangleShape2D_k7q5w")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_1bvtt")
+autoplay = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="IngredientsArea" to="." method="_on_ingredients_area_body_entered"]
