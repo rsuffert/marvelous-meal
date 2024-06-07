@@ -2,7 +2,7 @@ extends Node2D
 
 const ORDERS_CREATION_INTERVAL = 10
 var rng = RandomNumberGenerator.new()
-@onready var game_duration_seconds : int = 100000
+@onready var game_duration_seconds : int = 60
 @onready var current_score : int = 0
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
@@ -100,6 +100,22 @@ func _ready() -> void:
 	$UserInterface.add_child(dishes_panel)
 	dishes_buttons_container = dishes_container
 	
+	# create delivery panel
+	delivery_panel.visible = false
+	delivery_panel.name = "DeliveryPanel"
+	delivery_panel.position = Vector2(5, 70)
+	var heroes_container: GridContainer = GridContainer.new()
+	heroes_container.scale = Vector2(0.05,0.05)
+	heroes_container.columns = 3
+	for hero in heroes_in_use+heroes:
+		var hero_button : Button = Button.new()
+		hero_button.icon = load(heroes_dir_path + hero + ".normal.png")
+		hero_button.tooltip_text = hero.capitalize()
+		hero_button.pressed.connect(func(): _on_hero_delivery_button_pressed(hero_button))
+		heroes_container.add_child(hero_button)
+	delivery_panel.add_child(heroes_container)
+	$UserInterface.add_child(delivery_panel)
+	
 # Chamada a cada segundo
 func _on_timer_timeout() -> void:
 	check_existing_orders()
@@ -189,11 +205,11 @@ func create_order(hero: String, dish: Dish) -> void:
 	# adicionar o painel na tela
 	orders_container.add_child(panel)
 
-# Deleta um certo pedido (Array[String, String, int, int] (nome do heroi, nome do prato, tempo do prato, tempo que esta demorando para fazer))
+# Deleta um certo pedido
 func delete_order(order : Order, index: int) -> void:
 	# liberar o heroi em uso das listas internas
-	#var hero : String = order.hero
-	#heroes.append(hero)
+	var hero : String = order.hero
+	heroes.append(hero)
 	heroes_in_use.remove_at(index)
 	
 	# remover o pedido da lista interna de controle
@@ -206,12 +222,14 @@ func delete_order(order : Order, index: int) -> void:
 
 # Called when a body enters the delivery area
 func _on_delivery_area_body_entered(body: Node2D) -> void:
-	if body == player:
+	if body == player and not orders.is_empty():
+		orders_container.visible = false
 		delivery_panel.visible = true
 
 # Called when a body leaves the delivery area
 func _on_delivery_area_body_exited(body: Node2D) -> void:
 	if body == player:
+		orders_container.visible = true
 		delivery_panel.visible = false
 
 # Called when a body enters the ingredients area
@@ -262,6 +280,18 @@ func _on_create_dish_button_pressed() -> void:
 # Called when a possible dish button is pressed
 func _on_possible_dish_button_pressed(button: Button):
 	player.call('pickup_dish', button.icon, button.tooltip_text)
+	
+# Called when a hero button is pressed for delivery
+func _on_hero_delivery_button_pressed(button : Button):
+	for i in range(len(orders)-1):
+		var order = orders[i]
+		if order.dish.name == player.current_dish and button.tooltip_text.to_lower() == order.hero: # correct answer
+			player.deliver_dish()
+			current_score += order.dish.time - order.current_time
+			delete_order(order, i)
+			return
+	# se chegar ate essa parte do codigo, clicou no heroi errado (penalizar com a perda de 10% da pontuação atual)
+	current_score -= current_score*0.1
 
 # Checks if all elements in list1 are present in list2
 func are_all_elements_present(list1: Array, list2: Array) -> bool:

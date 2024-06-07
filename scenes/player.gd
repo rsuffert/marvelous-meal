@@ -3,8 +3,11 @@ extends CharacterBody2D
 @export var speed = 150.0
 @onready var sprite = $AnimatedSprite2D
 @onready var dish_icon = $Control/DishIcon
-var current_dish = null
+var current_dish = ""
 	
+func ready() -> void:
+	dish_icon.visible = false
+
 func get_8way_input() -> void:
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * speed
@@ -12,6 +15,10 @@ func get_8way_input() -> void:
 func pickup_dish(image : Texture2D, dish_name : String) -> void:
 	current_dish = dish_name
 	dish_icon.texture = image
+
+func deliver_dish() -> void:
+	current_dish = ""
+	dish_icon.texture = null
 	
 func animate() -> void:
 	if velocity.x > 0:		
