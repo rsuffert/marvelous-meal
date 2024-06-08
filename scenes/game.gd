@@ -283,7 +283,7 @@ func _on_possible_dish_button_pressed(button: Button):
 	
 # Called when a hero button is pressed for delivery
 func _on_hero_delivery_button_pressed(button : Button):
-	for i in range(len(orders)-1):
+	for i in range(len(orders)):
 		var order = orders[i]
 		if order.dish.name == player.current_dish and button.tooltip_text.to_lower() == order.hero: # correct answer
 			player.deliver_dish()
@@ -291,7 +291,8 @@ func _on_hero_delivery_button_pressed(button : Button):
 			delete_order(order, i)
 			return
 	# se chegar ate essa parte do codigo, clicou no heroi errado (penalizar com a perda de 10% da pontuação atual)
-	current_score -= current_score*0.1
+	if current_score > 0:
+		current_score -= current_score*0.1
 
 # Checks if all elements in list1 are present in list2
 func are_all_elements_present(list1: Array, list2: Array) -> bool:
