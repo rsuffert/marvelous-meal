@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d6en108cseun"]
+[gd_scene load_steps=23 format=3 uid="uid://d6en108cseun"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_ucdu8"]
 [ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/sprites/kitchen_v1.png" id="1_vwwbm"]
@@ -7,6 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://bghrqngltaasc" path="res://assets/sprites/Tiles.png" id="4_cg0c7"]
 [ext_resource type="FontFile" uid="uid://du0hmqraa8qtr" path="res://assets/fonts/Emulogic-zrEw.ttf" id="6_4lgel"]
 [ext_resource type="AudioStream" uid="uid://dupat1edeayx0" path="res://assets/sounds/soundtrack.mp3" id="7_1bvtt"]
+[ext_resource type="Texture2D" uid="uid://ck75q2r57ah7s" path="res://assets/icons/ingredients/Bacon.png" id="8_kmxj8"]
+[ext_resource type="Texture2D" uid="uid://dwedp7tj5phb7" path="res://assets/icons/ingredients/Bread.png" id="9_lwvaj"]
+[ext_resource type="Texture2D" uid="uid://dqwpddniig3ae" path="res://assets/icons/ingredients/Cheese.png" id="10_r5n3j"]
+[ext_resource type="Texture2D" uid="uid://dg7xkqv3e1ywu" path="res://assets/icons/ingredients/Onion.png" id="11_f4psl"]
+[ext_resource type="Texture2D" uid="uid://bp3pns7q50in7" path="res://assets/icons/ingredients/Pickle.png" id="12_v45iv"]
+[ext_resource type="Texture2D" uid="uid://bj7qflo2iqmxk" path="res://assets/icons/ingredients/Potato.png" id="13_irgu0"]
+[ext_resource type="Texture2D" uid="uid://ctoyu3oekbdux" path="res://assets/icons/ingredients/Steak.png" id="14_qh2wj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7gyc"]
 resource_name = "kitchen"
@@ -3973,6 +3980,14 @@ metadata/_edit_group_ = true
 position = Vector2(8.71429, 26.75)
 shape = SubResource("RectangleShape2D_1vwm0")
 
+[node name="Bacon" type="Sprite2D" parent="IngredientsArea"]
+position = Vector2(469, 224)
+texture = ExtResource("8_kmxj8")
+
+[node name="Bacon" type="Sprite2D" parent="IngredientsArea/Bacon"]
+position = Vector2(469, 225)
+texture = ExtResource("8_kmxj8")
+
 [node name="DeliveryArea" type="Area2D" parent="."]
 position = Vector2(-106, -109)
 scale = Vector2(1.003, 1.02229)
@@ -3984,6 +3999,90 @@ shape = SubResource("RectangleShape2D_k7q5w")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_1bvtt")
+
+[node name="Bacon2" type="Sprite2D" parent="."]
+position = Vector2(469, 249)
+texture = ExtResource("8_kmxj8")
+
+[node name="Bacon" type="Sprite2D" parent="."]
+position = Vector2(469, 224)
+texture = ExtResource("8_kmxj8")
+
+[node name="Bread3" type="Sprite2D" parent="."]
+position = Vector2(468, 327)
+texture = ExtResource("9_lwvaj")
+
+[node name="Bread2" type="Sprite2D" parent="."]
+position = Vector2(468, 303)
+texture = ExtResource("9_lwvaj")
+
+[node name="Bread" type="Sprite2D" parent="."]
+position = Vector2(469, 276)
+texture = ExtResource("9_lwvaj")
+
+[node name="Cheese" type="Sprite2D" parent="."]
+position = Vector2(629, 302)
+texture = ExtResource("10_r5n3j")
+
+[node name="Onion2" type="Sprite2D" parent="."]
+position = Vector2(550, 257)
+texture = ExtResource("11_f4psl")
+
+[node name="Onion" type="Sprite2D" parent="."]
+position = Vector2(551, 230)
+texture = ExtResource("11_f4psl")
+
+[node name="Pickle" type="Sprite2D" parent="."]
+position = Vector2(550, 290)
+texture = ExtResource("12_v45iv")
+
+[node name="Potato" type="Sprite2D" parent="."]
+position = Vector2(631, 234)
+texture = ExtResource("13_irgu0")
+
+[node name="Steak" type="Sprite2D" parent="."]
+position = Vector2(710, 270)
+texture = ExtResource("14_qh2wj")
+
+[node name="Pickle2" type="Sprite2D" parent="."]
+position = Vector2(549, 316)
+texture = ExtResource("12_v45iv")
+
+[node name="Potato2" type="Sprite2D" parent="."]
+position = Vector2(630, 251)
+texture = ExtResource("13_irgu0")
+
+[node name="Potato3" type="Sprite2D" parent="."]
+position = Vector2(630, 269)
+texture = ExtResource("13_irgu0")
+
+[node name="Potato4" type="Sprite2D" parent="."]
+position = Vector2(630, 286)
+texture = ExtResource("13_irgu0")
+
+[node name="Cheese2" type="Sprite2D" parent="."]
+position = Vector2(628, 321)
+texture = ExtResource("10_r5n3j")
+
+[node name="Steak2" type="Sprite2D" parent="."]
+position = Vector2(710, 250)
+texture = ExtResource("14_qh2wj")
+
+[node name="Steak3" type="Sprite2D" parent="."]
+position = Vector2(710, 225)
+texture = ExtResource("14_qh2wj")
+
+[node name="Steak4" type="Sprite2D" parent="."]
+position = Vector2(710, 291)
+texture = ExtResource("14_qh2wj")
+
+[node name="Steak5" type="Sprite2D" parent="."]
+position = Vector2(711, 313)
+texture = ExtResource("14_qh2wj")
+
+[node name="Steak6" type="Sprite2D" parent="."]
+position = Vector2(710, 334)
+texture = ExtResource("14_qh2wj")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="IngredientsArea" to="." method="_on_ingredients_area_body_entered"]

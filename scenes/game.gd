@@ -145,7 +145,7 @@ func check_existing_orders() -> void:
 			hero_texture.tooltip_text = order.hero.capitalize() + " (normal)"
 			
 		if order.current_time == order.dish.time: # tempo do pedido acabou
-			current_score -= int(order.dish.time/3) # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
+			#current_score -= int(order.dish.time/3) # penalizar o jogador por nao entregar o pedido com a perda de 1/3 de sua duracao
 			delete_order(order, i)
 
 # Loop do jogo, com as acoes de atualizacao da UI e de coordenacao/controle do jogo
