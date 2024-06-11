@@ -2,8 +2,12 @@ extends Node2D
 
 const ORDERS_CREATION_INTERVAL = 10
 var rng = RandomNumberGenerator.new()
-@onready var game_duration_seconds : int = 60
+@onready var game_duration_seconds : int = 120
+#TODO: Remover tempo de jogo e adicionar 3 vidas
+# A cada wave o tempo de espera dos pedidos vai diminuindo
+#@onready var lifes : int = 3
 @onready var current_score : int = 0
+@onready var last_hero : String = ""
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var orders_container = $UserInterface/OrdersContainer
@@ -158,8 +162,15 @@ func game_loop():
 
 # Gera um heroi aleatorio para ser adicionado a um pedido, retornando seu nome
 func get_hero() -> String:
-	var pos : int = rng.randi_range(0, len(heroes)-1)
-	var hero : String = heroes[pos]
+	var hero : String = last_hero
+	var pos : int
+	while (hero == last_hero):
+		pos = rng.randi_range(0, len(heroes)-1)
+		hero = heroes[pos]
+	print('lasthero: ', last_hero)
+	print('sorted_hero: ', hero)
+	print('\n')
+	last_hero = hero
 	heroes_in_use.append(hero)
 	heroes.remove_at(pos)
 	return hero

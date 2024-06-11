@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var speed = 150.0
 @onready var sprite = $AnimatedSprite2D
-@onready var dish_icon = $Control/DishIconw
+@onready var dish_icon = $Control/DishIcon
 var current_dish = ""
 	
 func ready() -> void:
