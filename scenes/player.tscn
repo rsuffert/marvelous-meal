@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_3oenr"]
 [ext_resource type="Texture2D" uid="uid://burnxi1vlior1" path="res://assets/sprites/ratfolk-m-chef-001.png" id="1_th1ka"]
-[ext_resource type="Texture2D" uid="uid://dkdi5fevbpt52" path="res://assets/design_system/1 Sprites/Content/10 Banners & Headers/Plain/11.png" id="3_njemu"]
+[ext_resource type="Texture2D" uid="uid://dkdi5fevbpt52" path="res://assets/ui/11.png" id="3_njemu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2lbji"]
 atlas = ExtResource("1_th1ka")
