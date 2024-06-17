@@ -3,8 +3,10 @@ extends Node2D
 ### REFERENCES TO UI COMPONENTS
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
+@onready var wave_label = $UserInterface/StatsContainer/WaveLabel
 @onready var orders_container = $UserInterface/OrdersContainer
 @onready var player : CharacterBody2D = $Player
+@onready var heart_bar = $UserInterface/HeartBar
 var ingredients_panel : Panel
 var dishes_panel : Panel
 var delivery_panel : Panel
@@ -40,23 +42,29 @@ class Order:
 ### INTERNAL VARIABLES
 var rng = RandomNumberGenerator.new()
 const ORDERS_CREATION_INTERVAL : int = 10
-var game_duration_seconds : int = 120
+const MAX_WAVES : int = 3
+const DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE : float = 0.2
+const TOTAL_GAME_DURATION_SECONDS : int = 120
+var remaining_time : int = TOTAL_GAME_DURATION_SECONDS
 var current_score : int = 0
+var current_wave : int = 1
+var lives : int = 3
 var last_hero : String = "" # avoids selecting the same hero twice in a row for the order
-#TODO: Remover tempo de jogo e adicionar 3 vidas
-# A cada wave o tempo de espera dos pedidos vai diminuindo
-# var lifes : int = 3
 var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman'] # available heroes
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
-var dishes : Array[Dish] = [Dish.new('Batata', 10, ['Potato']), Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])] # available dishes
+var dishes : Array[Dish] = [
+	Dish.new('Batata', 10, ['Potato']),
+	Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])
+] # available dishes
 var orders : Array[Order] = [] # current orders
 var ingredients : Array[String] = [] # currently selected ingredients
 
 ### MAIN GAME FUNCTIONS
 func _ready() -> void:
-	# initialize score & time labels
+	# initialize score, time & wave labels
 	score_label.text = "Score:" + str(current_score)
-	time_label.text = "Time:" + str(game_duration_seconds)
+	time_label.text = "Time:" + str(remaining_time)
+	wave_label.text = "Wave: " + str(current_wave)
 	# initialize UI panels
 	initialize_ingredients_panel()
 	initialize_dishes_panel()
@@ -65,11 +73,13 @@ func _ready() -> void:
 # Chamada a cada segundo
 func _on_timer_timeout() -> void:
 	check_existing_orders()
-	if game_duration_seconds > 0:
+	if remaining_time > 0 and lives > 0:
 		game_loop()
 	else: # time's up. change to game over scene
 		var gameover_scene = load(scenes_dir_path + "game_over.tscn").instantiate()
 		gameover_scene.call_deferred("set_score", current_score)
+		var message : String = "Time's up!" if remaining_time <= 0 else "You have no lives left!"
+		gameover_scene.call_deferred("set_message", message)
 		get_tree().root.add_child(gameover_scene)
 		get_tree().current_scene.queue_free()
 		get_tree().current_scene = gameover_scene
@@ -91,15 +101,22 @@ func check_existing_orders() -> void:
 			hero_texture.texture = load(new_hero_texture_path)
 			hero_texture.tooltip_text = order.hero.capitalize() + " (normal)"
 		if order.current_time == order.dish.time: # tempo do pedido acabou
+			lives -= 1
+			heart_bar.call_deferred("decrement_health")
 			delete_order(order, i)
 
 # Loop do jogo, com as acoes de atualizacao da UI e de coordenacao/controle do jogo
 func game_loop():
-	game_duration_seconds -= 1
-	time_label.text = "Time:" + str(game_duration_seconds)
+	remaining_time -= 1
+	time_label.text = "Time:" + str(remaining_time)
 	score_label.text = "Score:" + str(current_score)
-	if game_duration_seconds % ORDERS_CREATION_INTERVAL == 0 and len(heroes) > 0:
+	if remaining_time % ORDERS_CREATION_INTERVAL == 0 and len(heroes) > 0:
 		create_order(get_hero(), get_dish())
+	if should_increment_wave(): # move on to the next wave
+		for dish in dishes:
+			dish.time *= (1-DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE)
+		current_wave += 1
+		wave_label.text = "Wave: " + str(current_wave)
 
 ### CALLBACK FUNCTIONS FOR AREAS IN THE SCENARIO ENTERED
 # Called when a body enters the delivery area
@@ -176,7 +193,7 @@ func initialize_ingredients_panel() -> void:
 	ingredients_panel = Panel.new()
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
-	ingredients_panel.position = Vector2(5,70)
+	ingredients_panel.position = Vector2(5,85)
 	var ingredients_vbox : VBoxContainer = VBoxContainer.new()
 	var ingredients_container : GridContainer = GridContainer.new()
 	ingredients_container.columns = 4
@@ -207,7 +224,7 @@ func initialize_dishes_panel() -> void:
 	dishes_panel = Panel.new()
 	dishes_panel.visible = false
 	dishes_panel.name = "DishesPanel"
-	dishes_panel.position = Vector2(5,70)
+	dishes_panel.position = Vector2(5,85)
 	var dishes_vbox : VBoxContainer = VBoxContainer.new()
 	var dishes_container : GridContainer = GridContainer.new()
 	dishes_container.columns = 2
@@ -226,7 +243,7 @@ func initialize_delivery_panel() -> void:
 	delivery_panel = Panel.new()
 	delivery_panel.visible = false
 	delivery_panel.name = "DeliveryPanel"
-	delivery_panel.position = Vector2(5, 70)
+	delivery_panel.position = Vector2(5, 85)
 	var heroes_container: GridContainer = GridContainer.new()
 	heroes_container.scale = Vector2(0.05,0.05)
 	heroes_container.columns = 3
@@ -238,7 +255,7 @@ func initialize_delivery_panel() -> void:
 		heroes_container.add_child(hero_button)
 	delivery_panel.add_child(heroes_container)
 	$UserInterface.add_child(delivery_panel)
-
+	
 # Cria um pedido dado um heroi e um prato e o adiciona a tela
 func create_order(hero: String, dish: Dish) -> void:
 	# criar o pedido na lista de controle interno
@@ -320,3 +337,9 @@ func set_panel_checkboxes(panel : Panel, pressed: bool) -> void:
 	for child in panel.get_child(0).get_child(0).get_children():
 		if child is CheckBox:
 			child.set_pressed(pressed)
+
+func should_increment_wave() -> bool:
+	if current_wave >= MAX_WAVES: return false
+	var wave_duration : int = TOTAL_GAME_DURATION_SECONDS / MAX_WAVES
+	var current_wave_end = wave_duration*current_wave
+	return current_wave_end < (TOTAL_GAME_DURATION_SECONDS-remaining_time)

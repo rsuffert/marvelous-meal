@@ -1,6 +1,7 @@
 extends Control
 
 @onready var punctuation_label = $ColorRect/CenterContainer/VBoxContainer/PunctutationLabel
+@onready var message_label = $ColorRect/CenterContainer/VBoxContainer/MessageLabel
 @export var game_scene_path : String = "res://scenes/game.tscn"
 
 func _process(delta : float) -> void:
@@ -12,3 +13,6 @@ func _process(delta : float) -> void:
 
 func set_score(score: int) -> void:
 	punctuation_label.text = "Points:  " + str(score)
+
+func set_message(message: String) -> void:
+	message_label.text = message

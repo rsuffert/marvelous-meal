@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d6en108cseun"]
+[gd_scene load_steps=25 format=3 uid="uid://d6en108cseun"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_ucdu8"]
 [ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/sprites/kitchen_v1.png" id="1_vwwbm"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bghrqngltaasc" path="res://assets/sprites/Tiles.png" id="4_cg0c7"]
 [ext_resource type="FontFile" uid="uid://du0hmqraa8qtr" path="res://assets/fonts/Emulogic-zrEw.ttf" id="6_4lgel"]
 [ext_resource type="AudioStream" uid="uid://dupat1edeayx0" path="res://assets/sounds/soundtrack.mp3" id="7_1bvtt"]
+[ext_resource type="PackedScene" uid="uid://cd0kpkmau2mfi" path="res://scenes/heart_bar.tscn" id="7_nxfhf"]
 [ext_resource type="Texture2D" uid="uid://ck75q2r57ah7s" path="res://assets/icons/ingredients/Bacon.png" id="8_kmxj8"]
 [ext_resource type="Texture2D" uid="uid://dwedp7tj5phb7" path="res://assets/icons/ingredients/Bread.png" id="9_lwvaj"]
 [ext_resource type="Texture2D" uid="uid://dqwpddniig3ae" path="res://assets/icons/ingredients/Cheese.png" id="10_r5n3j"]
@@ -3896,6 +3897,10 @@ font_size = 20
 font = ExtResource("6_4lgel")
 font_size = 20
 
+[sub_resource type="LabelSettings" id="LabelSettings_n4cgs"]
+font = ExtResource("6_4lgel")
+font_size = 20
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1vwm0"]
 size = Vector2(40.5714, 80.5)
 
@@ -3959,14 +3964,23 @@ label_settings = SubResource("LabelSettings_0ila7")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_mrtj8")
 
+[node name="WaveLabel" type="Label" parent="UserInterface/StatsContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n4cgs")
+
 [node name="OrdersContainer" type="HBoxContainer" parent="UserInterface"]
 layout_mode = 0
 offset_left = 151.0
 offset_top = -3.0
-offset_right = 755.0
+offset_right = 628.0
 offset_bottom = 46.0
 alignment = 1
 metadata/_edit_group_ = true
+
+[node name="HeartBar" parent="UserInterface" instance=ExtResource("7_nxfhf")]
+layout_mode = 1
+offset_left = 650.0
+offset_right = 690.0
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

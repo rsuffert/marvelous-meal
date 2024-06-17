@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgvcvqyy36cyh"]
+[gd_scene load_steps=7 format=3 uid="uid://bgvcvqyy36cyh"]
 
 [ext_resource type="Script" path="res://scenes/game_over.gd" id="1_xgx24"]
 [ext_resource type="FontFile" uid="uid://du0hmqraa8qtr" path="res://assets/fonts/Emulogic-zrEw.ttf" id="2_58q5k"]
@@ -6,6 +6,10 @@
 [sub_resource type="LabelSettings" id="LabelSettings_v3yrs"]
 font = ExtResource("2_58q5k")
 font_size = 75
+
+[sub_resource type="LabelSettings" id="LabelSettings_iagbf"]
+font = ExtResource("2_58q5k")
+font_size = 15
 
 [sub_resource type="LabelSettings" id="LabelSettings_kpnaf"]
 font = ExtResource("2_58q5k")
@@ -47,6 +51,11 @@ alignment = 1
 layout_mode = 2
 text = "Game Over!"
 label_settings = SubResource("LabelSettings_v3yrs")
+
+[node name="MessageLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_iagbf")
+horizontal_alignment = 1
 
 [node name="PunctutationLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
