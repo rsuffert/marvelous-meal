@@ -135,11 +135,13 @@ offset_bottom = -17.0
 size_flags_horizontal = 4
 
 [node name="DishBanner" type="Sprite2D" parent="Control"]
+z_index = 1000
 position = Vector2(15, 17)
 scale = Vector2(0.296875, 0.34375)
 texture = ExtResource("3_njemu")
 
 [node name="DishIcon" type="TextureRect" parent="Control"]
+z_index = 1000
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
