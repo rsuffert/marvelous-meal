@@ -11,6 +11,7 @@ var ingredients_panel : Panel
 var dishes_panel : Panel
 var delivery_panel : Panel
 var dishes_buttons_container : GridContainer
+var ingredients_buttons_container : GridContainer
 
 ### EXPORTED VARIABLES THAT CONTAIN THE PATH TO DIRECTORIES OF ASSETS USED IN THE GAME
 @export var scenes_dir_path : String = "res://scenes/"
@@ -59,8 +60,19 @@ var dishes : Array[Dish] = [
 var orders : Array[Order] = [] # current orders
 var ingredients : Array[String] = [] # currently selected ingredients
 
+### STYLEBOXES
+var normal_style : StyleBoxFlat
+var selected_style : StyleBoxFlat
+
 ### MAIN GAME FUNCTIONS
 func _ready() -> void:
+	# initialize button styles
+	normal_style = StyleBoxFlat.new()
+	normal_style.bg_color = Color(1, 1, 1, 0.5)  # Opaque white
+	normal_style.set_corner_radius_all(2)
+	selected_style = StyleBoxFlat.new()
+	selected_style.bg_color = Color(1, 0, 0, 0.5)  # Opaque red
+	selected_style.set_corner_radius_all(2)
 	# initialize score, time & wave labels
 	score_label.text = "Score:" + str(current_score)
 	time_label.text = "Time:" + str(remaining_time)
@@ -140,25 +152,33 @@ func _on_ingredients_area_body_entered(body: Node2D) -> void:
 func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
+		
+func _on_preparation_area_body_entered(body: Node2D) -> void:
+	if body == player:
+		set_dishes_panel_buttons()
+		dishes_panel.visible = true
+
+func _on_preparation_area_body_exited(body: Node2D) -> void:
+	if body == player:
 		dishes_panel.visible = false
-		set_panel_checkboxes(ingredients_panel, false)
 
 ### CALLBACK FUNCTIONS FOR UI COMPONENTS ACTIONS (PRESSED, TOGGLED ETC.)
-# Called when an ingredient checkbox is toggled, receiving as parameter a reference to the checkbox that was toggled and whether or not it is checked
-func _on_ingredient_checkbox_toggled(checkbox : CheckBox, checked : bool) -> void:
-	if checked:
-		ingredients.append(checkbox.tooltip_text)
-	else:
-		ingredients.remove_at(ingredients.find(checkbox.tooltip_text))
+# Called when an ingredient button is pressed, receiving as parameter a reference to the button
+func _on_ingredient_button_pressed(button : Button) -> void:
+	var ingredient : String = button.tooltip_text
+	var index : int = ingredients.find(ingredient)
+	if index >= 0: # item is in the list, so remove it
+		button.add_theme_stylebox_override("normal", normal_style)
+		ingredients.remove_at(index)
+	else: # item is not in the list, so add it
+		button.add_theme_stylebox_override("normal", selected_style)
+		ingredients.append(ingredient)
 
 # Replaces the ingredients panel with the dishes panel
-func _on_create_dish_button_pressed() -> void:
-	ingredients_panel.visible = false
-	
+func set_dishes_panel_buttons() -> void:
 	# remove current plates being rendered
 	for child in dishes_buttons_container.get_children():
 		child.queue_free()
-		
 	# populate dishes panel with possible dishes using the ingredients currently selected (when clicked, add dish to player's inventory)
 	for dish in dishes:
 		if are_all_elements_present(dish.ingredients, ingredients): # this dish can be produced with selected ingredients
@@ -173,6 +193,8 @@ func _on_create_dish_button_pressed() -> void:
 
 # Called when a possible dish button is pressed
 func _on_possible_dish_button_pressed(button: Button):
+	ingredients.clear()
+	reset_ingredients_buttons()
 	player.call('pickup_dish', button.icon, button.tooltip_text)
 	
 # Called when a hero button is pressed for delivery
@@ -193,10 +215,10 @@ func initialize_ingredients_panel() -> void:
 	ingredients_panel = Panel.new()
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
-	ingredients_panel.position = Vector2(5,85)
+	ingredients_panel.position = Vector2(5,90)
 	var ingredients_vbox : VBoxContainer = VBoxContainer.new()
 	var ingredients_container : GridContainer = GridContainer.new()
-	ingredients_container.columns = 4
+	ingredients_container.columns = 7
 	ingredients_container.scale = Vector2(1.25, 1.25)
 	var ing_dir : DirAccess = DirAccess.open(ingredients_dir_path)
 	if ing_dir:
@@ -204,19 +226,17 @@ func initialize_ingredients_panel() -> void:
 		var file_name : String = ing_dir.get_next()
 		while file_name != "":
 			if not ing_dir.current_is_dir() and file_name.ends_with(".png"):
-				var checkbox : CheckBox = CheckBox.new()
-				checkbox.tooltip_text = file_name.split(".")[0]
-				checkbox.name = checkbox.tooltip_text + "IngredientCheckBox"
-				checkbox.tooltip_text = checkbox.tooltip_text.replace("-", " ")
-				checkbox.icon = load(ingredients_dir_path + file_name)
-				checkbox.toggled.connect(func(checked): _on_ingredient_checkbox_toggled(checkbox, checked))
-				ingredients_container.add_child(checkbox)
+				var button : Button = Button.new()
+				button.tooltip_text = file_name.split(".")[0]
+				button.name = button.tooltip_text + "IngredientCheckBox"
+				button.tooltip_text = button.tooltip_text.replace("-", " ")
+				button.icon = load(ingredients_dir_path + file_name)
+				button.pressed.connect(func(): _on_ingredient_button_pressed(button))
+				button.add_theme_stylebox_override("normal", normal_style)
+				ingredients_container.add_child(button)
 			file_name = ing_dir.get_next()
-	var create_dish_button : Button = Button.new()
-	create_dish_button.text = 'Create dish'
-	create_dish_button.pressed.connect(_on_create_dish_button_pressed)
+	ingredients_buttons_container = ingredients_container
 	ingredients_vbox.add_child(ingredients_container)
-	ingredients_vbox.add_child(create_dish_button)
 	ingredients_panel.add_child(ingredients_vbox)
 	$UserInterface.add_child(ingredients_panel)
 
@@ -224,7 +244,8 @@ func initialize_dishes_panel() -> void:
 	dishes_panel = Panel.new()
 	dishes_panel.visible = false
 	dishes_panel.name = "DishesPanel"
-	dishes_panel.position = Vector2(5,85)
+	dishes_panel.position = Vector2(5,90)
+	dishes_panel.scale = Vector2(0.2, 0.2)
 	var dishes_vbox : VBoxContainer = VBoxContainer.new()
 	var dishes_container : GridContainer = GridContainer.new()
 	dishes_container.columns = 2
@@ -243,7 +264,7 @@ func initialize_delivery_panel() -> void:
 	delivery_panel = Panel.new()
 	delivery_panel.visible = false
 	delivery_panel.name = "DeliveryPanel"
-	delivery_panel.position = Vector2(5, 85)
+	delivery_panel.position = Vector2(5, 90)
 	var heroes_container: GridContainer = GridContainer.new()
 	heroes_container.scale = Vector2(0.05,0.05)
 	heroes_container.columns = 3
@@ -335,15 +356,13 @@ func get_dish() -> Dish:
 	var pos : int = rng.randi_range(0, len(dishes)-1)
 	var dish : Dish = dishes[pos]
 	return dish
-	
-# Enables or disables all checkboxes in a panel (ingredients or delivery panel)
-func set_panel_checkboxes(panel : Panel, pressed: bool) -> void:
-	for child in panel.get_child(0).get_child(0).get_children():
-		if child is CheckBox:
-			child.set_pressed(pressed)
 
 func should_increment_wave() -> bool:
 	if current_wave >= MAX_WAVES: return false
 	var wave_duration : int = TOTAL_GAME_DURATION_SECONDS / MAX_WAVES
 	var current_wave_end = wave_duration*current_wave
 	return current_wave_end < (TOTAL_GAME_DURATION_SECONDS-remaining_time)
+
+func reset_ingredients_buttons() -> void:
+	for button in ingredients_buttons_container.get_children():
+		button.add_theme_stylebox_override("normal", normal_style)
