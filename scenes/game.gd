@@ -60,9 +60,11 @@ var dishes : Array[Dish] = [
 var orders : Array[Order] = [] # current orders
 var ingredients : Array[String] = [] # currently selected ingredients
 
-### STYLEBOXES
+### UI VARIABLES
 var normal_style : StyleBoxFlat
 var selected_style : StyleBoxFlat
+const PANELS_X_COORDINATE : int = 5
+const PANELS_Y_COORDINATE : int = 95
 
 ### MAIN GAME FUNCTIONS
 func _ready() -> void:
@@ -70,9 +72,15 @@ func _ready() -> void:
 	normal_style = StyleBoxFlat.new()
 	normal_style.bg_color = Color(1, 1, 1, 0.5)  # Opaque white
 	normal_style.set_corner_radius_all(2)
+	normal_style.border_color = Color(0, 0, 0)
+	normal_style.set_border_width_all(2)
+	normal_style.set_content_margin_all(5)
 	selected_style = StyleBoxFlat.new()
 	selected_style.bg_color = Color(1, 0, 0, 0.5)  # Opaque red
 	selected_style.set_corner_radius_all(2)
+	selected_style.border_color = Color(1, 1, 1)
+	selected_style.set_border_width_all(2)
+	selected_style.set_content_margin_all(5)
 	# initialize score, time & wave labels
 	score_label.text = "Score:" + str(current_score)
 	time_label.text = "Time:" + str(remaining_time)
@@ -187,6 +195,7 @@ func set_dishes_panel_buttons() -> void:
 			button.name = dish.name + "PossibleButton"
 			button.icon = load(dishes_dir_path + dish.name + ".png")
 			button.pressed.connect(func(): _on_possible_dish_button_pressed(button))
+			button.add_theme_stylebox_override("normal", normal_style)
 			dishes_buttons_container.add_child(button)
 	dishes_panel.scale = Vector2(0.2,0.2)
 	dishes_panel.visible = true
@@ -215,7 +224,7 @@ func initialize_ingredients_panel() -> void:
 	ingredients_panel = Panel.new()
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
-	ingredients_panel.position = Vector2(5,90)
+	ingredients_panel.position = Vector2(PANELS_X_COORDINATE, PANELS_Y_COORDINATE)
 	var ingredients_vbox : VBoxContainer = VBoxContainer.new()
 	var ingredients_container : GridContainer = GridContainer.new()
 	ingredients_container.columns = 7
@@ -244,7 +253,7 @@ func initialize_dishes_panel() -> void:
 	dishes_panel = Panel.new()
 	dishes_panel.visible = false
 	dishes_panel.name = "DishesPanel"
-	dishes_panel.position = Vector2(5,90)
+	dishes_panel.position = Vector2(PANELS_X_COORDINATE, PANELS_Y_COORDINATE)
 	dishes_panel.scale = Vector2(0.2, 0.2)
 	var dishes_vbox : VBoxContainer = VBoxContainer.new()
 	var dishes_container : GridContainer = GridContainer.new()
@@ -264,15 +273,16 @@ func initialize_delivery_panel() -> void:
 	delivery_panel = Panel.new()
 	delivery_panel.visible = false
 	delivery_panel.name = "DeliveryPanel"
-	delivery_panel.position = Vector2(5, 90)
+	delivery_panel.position = Vector2(PANELS_X_COORDINATE, PANELS_Y_COORDINATE)
 	var heroes_container: GridContainer = GridContainer.new()
-	heroes_container.scale = Vector2(0.05,0.05)
-	heroes_container.columns = 3
+	heroes_container.scale = Vector2(0.05, 0.05)
+	heroes_container.columns = 4
 	for hero in heroes_in_use+heroes:
 		var hero_button : Button = Button.new()
 		hero_button.icon = load(heroes_dir_path + hero + ".normal.png")
 		hero_button.tooltip_text = hero.capitalize()
 		hero_button.pressed.connect(func(): _on_hero_delivery_button_pressed(hero_button))
+		hero_button.add_theme_stylebox_override("normal", normal_style)
 		heroes_container.add_child(hero_button)
 	delivery_panel.add_child(heroes_container)
 	$UserInterface.add_child(delivery_panel)
