@@ -279,10 +279,14 @@ func create_order(hero: String, dish: Dish) -> void:
 	food_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	food_icon.position = Vector2(45, 0)
 	
-	# criar o painel que vai conter as duas texturas na tela (fundo cinza)
+	# criar o painel que vai conter as duas texturas na tela
 	var panel = Panel.new()
 	panel.custom_minimum_size = Vector2(hero_icon.size.x + food_icon.size.x, max(hero_icon.size.y, food_icon.size.y))
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	#var stylebox = StyleBoxFlat.new()
+	#stylebox.bg_color = Color(1, 1, 1, 0.5)
+	#stylebox.set_corner_radius_all(5)
+	#panel.add_theme_stylebox_override("panel", stylebox)
 	
 	# adicionar as texturas carregadas no painel
 	panel.add_child(hero_icon)
