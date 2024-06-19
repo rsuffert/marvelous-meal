@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="marvelous-meal-mvp"
+config/name="marvelous-meal"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 

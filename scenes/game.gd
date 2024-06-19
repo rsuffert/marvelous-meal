@@ -209,7 +209,7 @@ func _on_hero_delivery_button_pressed(button : Button):
 func initialize_button_styles() -> void:
 	normal_style = StyleBoxFlat.new()
 	normal_style.bg_color = Color(1, 1, 1, 0.5)
-	normal_style.set_corner_radius_all(2)
+	normal_style.set_corner_radius_all(5)
 	normal_style.border_color = Color(0, 0, 0)
 	normal_style.set_border_width_all(2)
 	normal_style.set_content_margin_all(5)
@@ -217,7 +217,7 @@ func initialize_button_styles() -> void:
 	selected_style.bg_color = Color(1, 0, 0, 0.5)
 	selected_style.set_corner_radius_all(2)
 	selected_style.border_color = Color(1, 1, 1)
-	selected_style.set_border_width_all(2)
+	selected_style.set_border_width_all(5)
 	selected_style.set_content_margin_all(5)
 
 func initialize_ingredients_panel() -> void:
@@ -308,10 +308,7 @@ func create_order(hero: String, dish: Dish) -> void:
 	var panel = Panel.new()
 	panel.custom_minimum_size = Vector2(hero_icon.size.x + food_icon.size.x, max(hero_icon.size.y, food_icon.size.y))
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	#var stylebox = StyleBoxFlat.new()
-	#stylebox.bg_color = Color(1, 1, 1, 0.5)
-	#stylebox.set_corner_radius_all(5)
-	#panel.add_theme_stylebox_override("panel", stylebox)
+	panel.add_theme_stylebox_override("panel", normal_style)
 	panel.add_child(hero_icon)
 	panel.add_child(food_icon)
 	orders_container.add_child(panel)
