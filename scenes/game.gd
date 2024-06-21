@@ -46,7 +46,8 @@ class Order:
 const ORDERS_CREATION_INTERVAL : int = 10
 const MAX_WAVES : int = 3
 const DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE : float = 0.2
-const TOTAL_GAME_DURATION_SECONDS : int = 120
+const TOTAL_GAME_DURATION_SECONDS : int = 20
+const MAX_REMAINING_TIME_TO_RECEIVE_ORDER : int = 10
 var remaining_time : int = TOTAL_GAME_DURATION_SECONDS
 var current_score : int = 0
 var current_wave : int = 1
@@ -55,8 +56,8 @@ var last_hero : String = "" # avoids selecting the same hero twice in a row for 
 var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman'] # available heroes
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [
-	Dish.new('Batata', 10, ['Potato']),
-	Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])
+	Dish.new('Batata', 15, ['Potato']),
+	Dish.new('MacTudo', 40, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])
 ] # available dishes
 var orders : Array[Order] = [] # current orders
 var ingredients : Array[String] = [] # currently selected ingredients
@@ -80,8 +81,10 @@ func _ready() -> void:
 # Called every second
 func _on_timer_timeout() -> void:
 	check_existing_orders()
-	if remaining_time > 0 and lives > 0:
+	if (remaining_time > 0 or len(orders)) and lives > 0:
 		game_loop()
+		if remaining_time < 0:
+			time_label.text = "Finsh your job!"
 	else:
 		game_over()
 
@@ -90,6 +93,9 @@ func check_existing_orders() -> void:
 	for i in range(len(orders) - 1, -1, -1): # iterates backwards
 		var order : Order = orders[i]
 		order.current_time += 1
+		print(order.current_time)
+		print(order.dish.time)
+		print()
 		# updates heroes' images according to the elapsed time (humour)
 		if order.current_time / order.dish.time >= 2.0/3.0: # angry
 			var hero_texture : TextureRect = orders_container.get_child(i).get_child(0)
@@ -101,7 +107,7 @@ func check_existing_orders() -> void:
 			var new_hero_texture_path : String = heroes_dir_path + "%s.normal.png" % order.hero
 			hero_texture.texture = load(new_hero_texture_path)
 			hero_texture.tooltip_text = order.hero.capitalize() + " (normal)"
-		if order.current_time == order.dish.time: # order wait time is over
+		if order.current_time >= order.dish.time: # order wait time is over
 			lives -= 1
 			heart_bar.call_deferred("decrement_health")
 			delete_order(order, i)
@@ -111,7 +117,7 @@ func game_loop():
 	remaining_time -= 1
 	time_label.text = "Time:" + str(remaining_time)
 	score_label.text = "Score:" + str(current_score)
-	if remaining_time % ORDERS_CREATION_INTERVAL == 0 and len(heroes) > 0:
+	if remaining_time % ORDERS_CREATION_INTERVAL == 0 and len(heroes) > 0 and MAX_REMAINING_TIME_TO_RECEIVE_ORDER <= remaining_time:
 		create_order(get_hero(), get_dish())
 	if should_increment_wave(): # move on to the next wave
 		for dish in dishes:
@@ -123,8 +129,15 @@ func game_loop():
 func game_over() -> void:
 	var gameover_scene = load(scenes_dir_path + "game_over.tscn").instantiate()
 	gameover_scene.call_deferred("set_score", current_score)
-	var message : String = "Time's up!" if remaining_time <= 0 else "You have no lives left!"
-	gameover_scene.call_deferred("set_message", message)
+	var message : String = ""
+	var restart_message : String = ""
+	if remaining_time <= 0:
+		message = "Good Job!"
+		restart_message = "(Press SPACE to continue)"
+	else:
+		message = "Game Over!"
+		restart_message = "(Press SPACE to restart)"
+	gameover_scene.call_deferred("set_message", message, restart_message)
 	get_tree().root.add_child(gameover_scene)
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = gameover_scene
@@ -319,6 +332,7 @@ func delete_order(order : Order, index: int) -> void:
 	heroes.append(hero)
 	heroes_in_use.remove_at(index)
 	orders.remove_at(index)
+	print(len(orders))
 	var child : Panel = orders_container.get_child(index)
 	orders_container.remove_child(child)
 	child.queue_free()

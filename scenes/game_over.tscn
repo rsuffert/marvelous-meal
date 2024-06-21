@@ -9,7 +9,7 @@ font_size = 75
 
 [sub_resource type="LabelSettings" id="LabelSettings_iagbf"]
 font = ExtResource("2_58q5k")
-font_size = 15
+font_size = 75
 
 [sub_resource type="LabelSettings" id="LabelSettings_kpnaf"]
 font = ExtResource("2_58q5k")
@@ -48,6 +48,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="GameOverLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Game Over!"
 label_settings = SubResource("LabelSettings_v3yrs")
@@ -65,6 +66,5 @@ horizontal_alignment = 1
 
 [node name="RestartInstructionLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "(Press SPACE to restart)"
 label_settings = SubResource("LabelSettings_corhv")
 horizontal_alignment = 1
