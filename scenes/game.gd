@@ -6,6 +6,7 @@ var rng = RandomNumberGenerator.new()
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var wave_label = $UserInterface/StatsContainer/WaveLabel
+@onready var day_label = $UserInterface/StatsContainer/DayLabel
 @onready var orders_container = $UserInterface/OrdersContainer
 @onready var player : CharacterBody2D = $Player
 @onready var heart_bar = $UserInterface/HeartBar
@@ -46,11 +47,12 @@ class Order:
 const ORDERS_CREATION_INTERVAL : int = 10
 const MAX_WAVES : int = 3
 const DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE : float = 0.2
-const TOTAL_GAME_DURATION_SECONDS : int = 20
+const TOTAL_GAME_DURATION_SECONDS : int = 40
 const MAX_REMAINING_TIME_TO_RECEIVE_ORDER : int = 10
 var remaining_time : int = TOTAL_GAME_DURATION_SECONDS
 var current_score : int = 0
 var current_wave : int = 1
+var current_day : int = 1
 var lives : int = 3
 var last_hero : String = "" # avoids selecting the same hero twice in a row for the order
 var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman'] # available heroes
@@ -66,7 +68,7 @@ var ingredients : Array[String] = [] # currently selected ingredients
 var normal_style : StyleBoxFlat
 var selected_style : StyleBoxFlat
 const PANELS_X_COORDINATE : int = 5
-const PANELS_Y_COORDINATE : int = 95
+const PANELS_Y_COORDINATE : int = 120
 
 ### MAIN GAME FUNCTIONS
 func _ready() -> void:
@@ -74,6 +76,7 @@ func _ready() -> void:
 	score_label.text = "Score:" + str(current_score)
 	time_label.text = "Time:" + str(remaining_time)
 	wave_label.text = "Wave: " + str(current_wave)
+	day_label.text = "Day: " + str(current_day)
 	initialize_ingredients_panel()
 	initialize_dishes_panel()
 	initialize_delivery_panel()
@@ -93,9 +96,6 @@ func check_existing_orders() -> void:
 	for i in range(len(orders) - 1, -1, -1): # iterates backwards
 		var order : Order = orders[i]
 		order.current_time += 1
-		print(order.current_time)
-		print(order.dish.time)
-		print()
 		# updates heroes' images according to the elapsed time (humour)
 		if order.current_time / order.dish.time >= 2.0/3.0: # angry
 			var hero_texture : TextureRect = orders_container.get_child(i).get_child(0)
@@ -111,6 +111,19 @@ func check_existing_orders() -> void:
 			lives -= 1
 			heart_bar.call_deferred("decrement_health")
 			delete_order(order, i)
+
+func set_day(day: int):
+	current_day = day
+	day_label.text = "Day: " + str(day)
+
+func set_score(score: int):
+	current_score = score
+	score_label.text = "Score:" + str(score)
+	
+func set_lives(number: int):
+	for i in range(lives - number):
+		heart_bar.call_deferred("decrement_health")
+	lives = number
 
 # Game loop, handling updating the UI and coordinating/controlling the game
 func game_loop():
@@ -129,11 +142,14 @@ func game_loop():
 func game_over() -> void:
 	var gameover_scene = load(scenes_dir_path + "game_over.tscn").instantiate()
 	gameover_scene.call_deferred("set_score", current_score)
+	gameover_scene.call_deferred("set_day", current_day)
+	gameover_scene.call_deferred("set_lives", lives)
 	var message : String = ""
 	var restart_message : String = ""
-	if remaining_time <= 0:
+	if remaining_time <= 0 and lives > 0:
 		message = "Good Job!"
 		restart_message = "(Press SPACE to continue)"
+		gameover_scene.call_deferred("game_over", false)
 	else:
 		message = "Game Over!"
 		restart_message = "(Press SPACE to restart)"
@@ -332,7 +348,6 @@ func delete_order(order : Order, index: int) -> void:
 	heroes.append(hero)
 	heroes_in_use.remove_at(index)
 	orders.remove_at(index)
-	print(len(orders))
 	var child : Panel = orders_container.get_child(index)
 	orders_container.remove_child(child)
 	child.queue_free()

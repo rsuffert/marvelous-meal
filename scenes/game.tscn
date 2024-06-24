@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d6en108cseun"]
+[gd_scene load_steps=22 format=3 uid="uid://d6en108cseun"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_ucdu8"]
 [ext_resource type="Texture2D" uid="uid://hty0qgt3nudm" path="res://assets/sprites/kitchen_v1.png" id="1_vwwbm"]
@@ -3896,6 +3896,10 @@ font_size = 20
 font = ExtResource("6_4lgel")
 font_size = 20
 
+[sub_resource type="LabelSettings" id="LabelSettings_3gsgf"]
+font = ExtResource("6_4lgel")
+font_size = 20
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1vwm0"]
 size = Vector2(40.5714, 80.5)
 
@@ -3965,6 +3969,10 @@ label_settings = SubResource("LabelSettings_mrtj8")
 [node name="WaveLabel" type="Label" parent="UserInterface/StatsContainer"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_n4cgs")
+
+[node name="DayLabel" type="Label" parent="UserInterface/StatsContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3gsgf")
 
 [node name="OrdersContainer" type="HBoxContainer" parent="UserInterface"]
 layout_mode = 0

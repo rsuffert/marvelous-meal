@@ -13,4 +13,4 @@ func _ready() -> void:
 
 func decrement_health() -> void:
 	if get_child_count() <= 0: return
-	get_child(get_child_count()-1).queue_free()
+	get_child(get_child_count()-1).free()
