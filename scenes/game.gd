@@ -65,7 +65,7 @@ var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman'] # available heroe
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [
 	Dish.new('Batata', 15, ['Potato']),
-	Dish.new('MacTudo', 40, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])
+	Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])
 ] # available dishes
 var orders : Array[Order] = [] # current orders
 var ingredients : Array[String] = [] # currently selected ingredients
@@ -130,19 +130,6 @@ func check_existing_orders() -> void:
 			heart_bar.call_deferred("decrement_health")
 			delete_order(order, i)
 
-func set_day(day: int):
-	current_day = day
-	day_label.text = "Day: " + str(day)
-
-func set_score(score: int):
-	current_score = score
-	score_label.text = "Score:" + str(score)
-	
-func set_lives(number: int):
-	for i in range(lives - number):
-		heart_bar.call_deferred("decrement_health")
-	lives = number
-
 # Game loop, handling updating the UI and coordinating/controlling the game
 func game_loop():
 	remaining_time -= 1
@@ -183,6 +170,7 @@ func _on_delivery_area_body_entered(body: Node2D) -> void:
 		if not orders.is_empty():
 			orders_container.visible = false
 			delivery_panel.visible = true
+		# make arrow keys selections refer to this panel's buttons
 		current_button_pointer = 0
 		current_panel_buttons = heroes_buttons
 		move_button_selection(current_button_pointer)
@@ -197,6 +185,7 @@ func _on_delivery_area_body_exited(body: Node2D) -> void:
 func _on_ingredients_area_body_entered(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = true
+		# make arrow keys selections refer to this panel's buttons
 		current_button_pointer = 0
 		current_panel_buttons = ingredients_buttons
 		move_button_selection(current_button_pointer)
@@ -210,6 +199,7 @@ func _on_preparation_area_body_entered(body: Node2D) -> void:
 	if body == player:
 		set_dishes_panel_buttons()
 		dishes_panel.visible = true
+		# make arrow keys selections refer to this panel's buttons
 		current_button_pointer = 0
 		current_panel_buttons = dishes_buttons
 		move_button_selection(current_button_pointer)
@@ -360,6 +350,7 @@ func initialize_delivery_panel() -> Array[Button]:
 
 # Moves the focus to another UI button
 func move_button_selection(button_pointer: int) -> void:
+	if button_pointer >= len(current_panel_buttons): return
 	var button : Button = current_panel_buttons[current_button_pointer]
 	var stylebox = duplicate_stylebox(button.get_theme_stylebox("normal", "Button"))
 	stylebox.bg_color = Color(0.1, 0.4, 1, 0.5)
@@ -377,6 +368,7 @@ func move_button_selection(button_pointer: int) -> void:
 
 # Removes the focus from the given button in the given list
 func remove_focus_from_button(button_list: Array[Button], button_idx: int) -> void:
+	if button_idx >= len(button_list): return
 	var button : Button = button_list[button_idx]
 	var stylebox : StyleBoxFlat = duplicate_stylebox(button.get_theme_stylebox("normal", "Button"))
 	stylebox.bg_color = Color(1, 1, 1, 0.5)
@@ -461,3 +453,16 @@ func duplicate_stylebox(stylebox : StyleBoxFlat) -> StyleBoxFlat:
 	new_stylebox.set_border_width_all(stylebox.border_width_left)
 	new_stylebox.set_content_margin_all(stylebox.content_margin_left)
 	return new_stylebox
+	
+func set_day(day: int):
+	current_day = day
+	day_label.text = "Day: " + str(day)
+
+func set_score(score: int):
+	current_score = score
+	score_label.text = "Score:" + str(score)
+	
+func set_lives(number: int):
+	for i in range(lives - number):
+		heart_bar.call_deferred("decrement_health")
+	lives = number
