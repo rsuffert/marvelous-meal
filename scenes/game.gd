@@ -105,7 +105,7 @@ func _on_timer_timeout() -> void:
 	if (remaining_time > 0 or len(orders)) and lives > 0:
 		game_loop()
 		if remaining_time < 0:
-			time_label.text = "Finsh your job!"
+			time_label.text = "%d orders left!" % len(orders)
 	else:
 		game_over()
 
@@ -154,7 +154,7 @@ func game_loop():
 		for dish in dishes:
 			dish.time *= (1-DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE)
 		current_wave += 1
-		soundtrack.pitch_scale = soundtrack.pitch_scale + soundtrack.pitch_scale/(MAX_WAVES*2)
+		soundtrack.pitch_scale = soundtrack.pitch_scale + soundtrack.pitch_scale/(MAX_WAVES*2.5)
 		wave_label.text = "Wave: " + str(current_wave)
 
 # Handles terminating the game
@@ -191,7 +191,7 @@ func _on_delivery_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		orders_container.visible = true
 		delivery_panel.visible = false
-		current_panel_buttons[current_button_pointer].add_theme_stylebox_override("normal", normal_style)
+		remove_focus_from_button(current_panel_buttons, current_button_pointer)
 		
 
 func _on_ingredients_area_body_entered(body: Node2D) -> void:
@@ -204,7 +204,7 @@ func _on_ingredients_area_body_entered(body: Node2D) -> void:
 func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
-		current_panel_buttons[current_button_pointer].add_theme_stylebox_override("normal", normal_style)
+		remove_focus_from_button(current_panel_buttons, current_button_pointer)
 
 func _on_preparation_area_body_entered(body: Node2D) -> void:
 	if body == player:
@@ -217,7 +217,7 @@ func _on_preparation_area_body_entered(body: Node2D) -> void:
 func _on_preparation_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		dishes_panel.visible = false
-		current_panel_buttons[current_button_pointer].add_theme_stylebox_override("normal", normal_style)
+		remove_focus_from_button(current_panel_buttons, current_button_pointer)
 
 ### CALLBACK FUNCTIONS FOR UI COMPONENTS ACTIONS (PRESSED, TOGGLED ETC.)
 # Called when an ingredient button is pressed, receiving as parameter a reference to the button
@@ -374,6 +374,13 @@ func move_button_selection(button_pointer: int) -> void:
 		var prev_stylebox = duplicate_stylebox(previous_button.get_theme_stylebox("normal", "Button"))
 		prev_stylebox.bg_color = Color(1, 1, 1, 0.5)
 		previous_button.add_theme_stylebox_override("normal", prev_stylebox)
+
+# Removes the focus from the given button in the given list
+func remove_focus_from_button(button_list: Array[Button], button_idx: int) -> void:
+	var button : Button = button_list[button_idx]
+	var stylebox : StyleBoxFlat = duplicate_stylebox(button.get_theme_stylebox("normal", "Button"))
+	stylebox.bg_color = Color(1, 1, 1, 0.5)
+	button.add_theme_stylebox_override("normal", stylebox)
 
 # Given a hero and a dish, creates an order, adding it to the screen and to the internal lists of the system to be tracked
 func create_order(hero: String, dish: Dish) -> void:

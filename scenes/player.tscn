@@ -135,6 +135,7 @@ offset_bottom = -17.0
 size_flags_horizontal = 4
 
 [node name="DishBanner" type="Sprite2D" parent="Control"]
+visible = false
 z_index = 1000
 position = Vector2(15, 17)
 scale = Vector2(0.296875, 0.34375)
