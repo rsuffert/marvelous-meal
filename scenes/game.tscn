@@ -4025,6 +4025,7 @@ shape = SubResource("RectangleShape2D_hqoa7")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_1bvtt")
+autoplay = true
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -1000

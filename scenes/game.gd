@@ -10,11 +10,17 @@ var rng = RandomNumberGenerator.new()
 @onready var orders_container = $UserInterface/OrdersContainer
 @onready var player : CharacterBody2D = $Player
 @onready var heart_bar = $UserInterface/HeartBar
+@onready var soundtrack = $AudioStreamPlayer
 var ingredients_panel : Panel
 var dishes_panel : Panel
 var delivery_panel : Panel
 var dishes_buttons_container : GridContainer
 var ingredients_buttons_container : GridContainer
+var ingredients_buttons : Array[Button]
+var heroes_buttons : Array[Button]
+var dishes_buttons : Array[Button]
+var current_panel_buttons : Array[Button] # buttons of the panel that is currently visible
+var current_button_pointer : int # pointer to the button the user has currently selected (refers to the list of buttons of the currently visible panel)
 
 ### EXPORTED VARIABLES THAT CONTAIN THE PATH TO DIRECTORIES OF ASSETS USED IN THE GAME
 @export var scenes_dir_path : String = "res://scenes/"
@@ -47,7 +53,7 @@ class Order:
 const ORDERS_CREATION_INTERVAL : int = 10
 const MAX_WAVES : int = 3
 const DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE : float = 0.2
-const TOTAL_GAME_DURATION_SECONDS : int = 40
+const TOTAL_GAME_DURATION_SECONDS : int = 120
 const MAX_REMAINING_TIME_TO_RECEIVE_ORDER : int = 10
 var remaining_time : int = TOTAL_GAME_DURATION_SECONDS
 var current_score : int = 0
@@ -77,9 +83,21 @@ func _ready() -> void:
 	time_label.text = "Time:" + str(remaining_time)
 	wave_label.text = "Wave: " + str(current_wave)
 	day_label.text = "Day: " + str(current_day)
-	initialize_ingredients_panel()
+	ingredients_buttons = initialize_ingredients_panel()
 	initialize_dishes_panel()
-	initialize_delivery_panel()
+	heroes_buttons = initialize_delivery_panel()
+
+# Moves the selection of buttons in the UI panels with the arrow keys
+func _input(event) -> void:
+	if current_panel_buttons.is_empty(): return
+	if event.is_action_pressed("ui_left") and current_button_pointer > 0:
+		current_button_pointer -= 1
+		move_button_selection(current_button_pointer)
+	elif event.is_action_pressed("ui_right") and current_button_pointer < len(current_panel_buttons)-1:
+		current_button_pointer += 1
+		move_button_selection(current_button_pointer)
+	elif event.is_action_pressed("ui_accept"):
+		current_panel_buttons[current_button_pointer].emit_signal("pressed")
 	
 # Called every second
 func _on_timer_timeout() -> void:
@@ -136,6 +154,7 @@ func game_loop():
 		for dish in dishes:
 			dish.time *= (1-DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE)
 		current_wave += 1
+		soundtrack.pitch_scale = soundtrack.pitch_scale + soundtrack.pitch_scale/(MAX_WAVES*2)
 		wave_label.text = "Wave: " + str(current_wave)
 
 # Handles terminating the game
@@ -160,31 +179,45 @@ func game_over() -> void:
 
 ### CALLBACK FUNCTIONS FOR AREAS IN THE SCENARIO ENTERED
 func _on_delivery_area_body_entered(body: Node2D) -> void:
-	if body == player and not orders.is_empty():
-		orders_container.visible = false
-		delivery_panel.visible = true
+	if body == player:
+		if not orders.is_empty():
+			orders_container.visible = false
+			delivery_panel.visible = true
+		current_button_pointer = 0
+		current_panel_buttons = heroes_buttons
+		move_button_selection(current_button_pointer)
 
 func _on_delivery_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		orders_container.visible = true
 		delivery_panel.visible = false
+		current_panel_buttons[current_button_pointer].add_theme_stylebox_override("normal", normal_style)
+		
 
 func _on_ingredients_area_body_entered(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = true
+		current_button_pointer = 0
+		current_panel_buttons = ingredients_buttons
+		move_button_selection(current_button_pointer)
 
 func _on_ingredients_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		ingredients_panel.visible = false
+		current_panel_buttons[current_button_pointer].add_theme_stylebox_override("normal", normal_style)
 
 func _on_preparation_area_body_entered(body: Node2D) -> void:
 	if body == player:
 		set_dishes_panel_buttons()
 		dishes_panel.visible = true
+		current_button_pointer = 0
+		current_panel_buttons = dishes_buttons
+		move_button_selection(current_button_pointer)
 
 func _on_preparation_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		dishes_panel.visible = false
+		current_panel_buttons[current_button_pointer].add_theme_stylebox_override("normal", normal_style)
 
 ### CALLBACK FUNCTIONS FOR UI COMPONENTS ACTIONS (PRESSED, TOGGLED ETC.)
 # Called when an ingredient button is pressed, receiving as parameter a reference to the button
@@ -200,6 +233,7 @@ func _on_ingredient_button_pressed(button : Button) -> void:
 
 # Updates the buttons of the dishes panel according to the dishes that can be prepared with the currently ingredients being held
 func set_dishes_panel_buttons() -> void:
+	var buttons : Array[Button] = []
 	# remove current plates being rendered
 	for child in dishes_buttons_container.get_children():
 		child.queue_free()
@@ -212,7 +246,9 @@ func set_dishes_panel_buttons() -> void:
 			button.icon = load(dishes_dir_path + dish.name + ".png")
 			button.pressed.connect(func(): _on_possible_dish_button_pressed(button))
 			button.add_theme_stylebox_override("normal", normal_style)
+			buttons.append(button)
 			dishes_buttons_container.add_child(button)
+	dishes_buttons = buttons # reset the global reference to the dishes buttons
 	dishes_panel.scale = Vector2(0.2,0.2)
 	dishes_panel.visible = true
 
@@ -240,16 +276,17 @@ func initialize_button_styles() -> void:
 	normal_style.bg_color = Color(1, 1, 1, 0.5)
 	normal_style.set_corner_radius_all(5)
 	normal_style.border_color = Color(0, 0, 0)
-	normal_style.set_border_width_all(2)
+	normal_style.set_border_width_all(3)
 	normal_style.set_content_margin_all(5)
 	selected_style = StyleBoxFlat.new()
-	selected_style.bg_color = Color(1, 0, 0, 0.5)
-	selected_style.set_corner_radius_all(2)
+	selected_style.bg_color = Color(1, 1, 1, 0.5)
+	selected_style.set_corner_radius_all(5)
 	selected_style.border_color = Color(1, 1, 1)
-	selected_style.set_border_width_all(5)
+	selected_style.set_border_width_all(3)
 	selected_style.set_content_margin_all(5)
 
-func initialize_ingredients_panel() -> void:
+func initialize_ingredients_panel() -> Array[Button]:
+	var buttons: Array[Button] = []
 	ingredients_panel = Panel.new()
 	ingredients_panel.visible = false
 	ingredients_panel.name = "IngredientsPanel"
@@ -271,12 +308,14 @@ func initialize_ingredients_panel() -> void:
 				button.icon = load(ingredients_dir_path + file_name)
 				button.pressed.connect(func(): _on_ingredient_button_pressed(button))
 				button.add_theme_stylebox_override("normal", normal_style)
+				buttons.append(button)
 				ingredients_container.add_child(button)
 			file_name = ing_dir.get_next()
 	ingredients_buttons_container = ingredients_container
 	ingredients_vbox.add_child(ingredients_container)
 	ingredients_panel.add_child(ingredients_vbox)
 	$UserInterface.add_child(ingredients_panel)
+	return buttons
 
 func initialize_dishes_panel() -> void:
 	dishes_panel = Panel.new()
@@ -298,7 +337,8 @@ func initialize_dishes_panel() -> void:
 	$UserInterface.add_child(dishes_panel)
 	dishes_buttons_container = dishes_container
 
-func initialize_delivery_panel() -> void:
+func initialize_delivery_panel() -> Array[Button]:
+	var buttons : Array[Button] = []
 	delivery_panel = Panel.new()
 	delivery_panel.visible = false
 	delivery_panel.name = "DeliveryPanel"
@@ -312,11 +352,29 @@ func initialize_delivery_panel() -> void:
 		hero_button.tooltip_text = hero.capitalize()
 		hero_button.pressed.connect(func(): _on_hero_delivery_button_pressed(hero_button))
 		hero_button.add_theme_stylebox_override("normal", normal_style)
+		buttons.append(hero_button)
 		heroes_container.add_child(hero_button)
 	delivery_panel.add_child(heroes_container)
 	$UserInterface.add_child(delivery_panel)
-	
-# Cria um pedido dado um heroi e um prato e o adiciona a tela
+	return buttons
+
+# Moves the focus to another UI button
+func move_button_selection(button_pointer: int) -> void:
+	var button : Button = current_panel_buttons[current_button_pointer]
+	var stylebox = duplicate_stylebox(button.get_theme_stylebox("normal", "Button"))
+	stylebox.bg_color = Color(0.1, 0.4, 1, 0.5)
+	button.add_theme_stylebox_override("normal", stylebox)
+	if button_pointer < len(current_panel_buttons)-1:
+		var next_button : Button = current_panel_buttons[current_button_pointer+1]
+		var next_stylebox = duplicate_stylebox(next_button.get_theme_stylebox("normal", "Button"))
+		next_stylebox.bg_color = Color(1, 1, 1, 0.5)
+		next_button.add_theme_stylebox_override("normal", next_stylebox)
+	if button_pointer > 0:
+		var previous_button : Button = current_panel_buttons[current_button_pointer-1]
+		var prev_stylebox = duplicate_stylebox(previous_button.get_theme_stylebox("normal", "Button"))
+		prev_stylebox.bg_color = Color(1, 1, 1, 0.5)
+		previous_button.add_theme_stylebox_override("normal", prev_stylebox)
+
 # Given a hero and a dish, creates an order, adding it to the screen and to the internal lists of the system to be tracked
 func create_order(hero: String, dish: Dish) -> void:
 	orders.append(Order.new(hero, dish))
@@ -387,3 +445,12 @@ func should_increment_wave() -> bool:
 func reset_ingredients_buttons() -> void:
 	for button in ingredients_buttons_container.get_children():
 		button.add_theme_stylebox_override("normal", normal_style)
+
+func duplicate_stylebox(stylebox : StyleBoxFlat) -> StyleBoxFlat:
+	var new_stylebox = StyleBoxFlat.new()
+	new_stylebox.bg_color = stylebox.bg_color
+	new_stylebox.set_corner_radius_all(stylebox.corner_radius_bottom_left)
+	new_stylebox.border_color = stylebox.border_color
+	new_stylebox.set_border_width_all(stylebox.border_width_left)
+	new_stylebox.set_content_margin_all(stylebox.content_margin_left)
+	return new_stylebox
