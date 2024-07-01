@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by5k4pjf8h78r"
-path="res://.godot/imported/MacTudo.png-0d0582ad37e20bac4df90ebf5f493735.ctex"
+uid="uid://b53qn42krkhp7"
+path="res://.godot/imported/Mostard.png-4114f1ad3bd8007dab9112196b83561e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/dishes/MacTudo.png"
-dest_files=["res://.godot/imported/MacTudo.png-0d0582ad37e20bac4df90ebf5f493735.ctex"]
+source_file="res://assets/icons/ingredients/Mostard.png"
+dest_files=["res://.godot/imported/Mostard.png-4114f1ad3bd8007dab9112196b83561e.ctex"]
 
 [params]
 

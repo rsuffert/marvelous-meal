@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by5k4pjf8h78r"
-path="res://.godot/imported/MacTudo.png-0d0582ad37e20bac4df90ebf5f493735.ctex"
+uid="uid://jdr6hhc4w3fs"
+path="res://.godot/imported/HotDog.png-f5ec0b600a80f809dbb9f518e856337d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/dishes/MacTudo.png"
-dest_files=["res://.godot/imported/MacTudo.png-0d0582ad37e20bac4df90ebf5f493735.ctex"]
+source_file="res://assets/icons/dishes/HotDog.png"
+dest_files=["res://.godot/imported/HotDog.png-f5ec0b600a80f809dbb9f518e856337d.ctex"]
 
 [params]
 

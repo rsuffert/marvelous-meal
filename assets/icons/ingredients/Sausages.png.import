@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ca7g0tcqikrj8"
-path="res://.godot/imported/Olive.png-35558e5db583dc4a65529c13f752284e.ctex"
+uid="uid://bdc2pym2e57mo"
+path="res://.godot/imported/Sausages.png-5a6c0b40a8cd38c9276155c62c841359.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/not_used_ingredients/Olive.png"
-dest_files=["res://.godot/imported/Olive.png-35558e5db583dc4a65529c13f752284e.ctex"]
+source_file="res://assets/icons/ingredients/Sausages.png"
+dest_files=["res://.godot/imported/Sausages.png-5a6c0b40a8cd38c9276155c62c841359.ctex"]
 
 [params]
 

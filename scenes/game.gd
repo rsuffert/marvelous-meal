@@ -65,7 +65,11 @@ var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman', 'captain', 'hawke
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [
 	Dish.new('Batata', 15, ['Potato']),
-	Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak'])
+	Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak', 'Soda']),
+	Dish.new('Coke', 15, ['Soda']),
+	Dish.new('Pizza', 40, ['Bread', 'Cheese', 'Onion', 'Pepperoni', 'Tomato', 'Olive']),
+	Dish.new('HotDog', 20, ['Bread', 'Sausages', 'Mostard']),
+	Dish.new('FruitSalad', 20, ['Olive', 'Tomato', 'Lettuce'])
 ] # available dishes
 var orders : Array[Order] = [] # current orders
 var ingredients : Array[String] = [] # currently selected ingredients
@@ -89,7 +93,8 @@ func _ready() -> void:
 
 # Moves the selection of buttons in the UI panels with the arrow keys
 func _input(event: InputEvent) -> void:
-	move_arrow_buttons_selection(event)
+	if event is InputEventKey:
+		move_arrow_buttons_selection(event)
 	
 # Called every second
 func _on_timer_timeout() -> void:

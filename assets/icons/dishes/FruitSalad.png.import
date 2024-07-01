@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b08drws8xd8ky"
-path="res://.godot/imported/Tomato.png-050156be63867184a87c0317baf52783.ctex"
+uid="uid://bitnf1v3mwse3"
+path="res://.godot/imported/FruitSalad.png-c5a8454cc4b2f821d5f013b5df70a2de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/not_used_ingredients/Tomato.png"
-dest_files=["res://.godot/imported/Tomato.png-050156be63867184a87c0317baf52783.ctex"]
+source_file="res://assets/icons/dishes/FruitSalad.png"
+dest_files=["res://.godot/imported/FruitSalad.png-c5a8454cc4b2f821d5f013b5df70a2de.ctex"]
 
 [params]
 

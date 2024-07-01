@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjlfino6odmw0"
-path="res://.godot/imported/Pepperoni.png-1f79d54f7dab1c2fc4dcbf7ef7b1df17.ctex"
+uid="uid://b08drws8xd8ky"
+path="res://.godot/imported/Tomato.png-9b27c5c20f51a76ddad05d0f38945186.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/not_used_ingredients/Pepperoni.png"
-dest_files=["res://.godot/imported/Pepperoni.png-1f79d54f7dab1c2fc4dcbf7ef7b1df17.ctex"]
+source_file="res://assets/icons/ingredients/Tomato.png"
+dest_files=["res://.godot/imported/Tomato.png-9b27c5c20f51a76ddad05d0f38945186.ctex"]
 
 [params]
 
