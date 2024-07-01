@@ -61,7 +61,7 @@ var current_wave : int = 1
 var current_day : int = 1
 var lives : int = 3
 var last_hero : String = "" # avoids selecting the same hero twice in a row for the order
-var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman'] # available heroes
+var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman', 'captain', 'hawkeye', 'ironman', 'wolverine'] # available heroes
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [
 	Dish.new('Batata', 15, ['Potato']),
@@ -305,6 +305,7 @@ func initialize_dishes_panel() -> void:
 	dishes_panel.name = "DishesPanel"
 	dishes_panel.position = Vector2(PANELS_X_COORDINATE, PANELS_Y_COORDINATE)
 	dishes_panel.scale = Vector2(0.2, 0.2)
+	dishes_panel.size = Vector2(45, 45)
 	var dishes_vbox : VBoxContainer = VBoxContainer.new()
 	var dishes_container : GridContainer = GridContainer.new()
 	dishes_container.columns = 2
