@@ -2,7 +2,7 @@ extends Node2D
 
 var rng = RandomNumberGenerator.new()
 
-### REFERENCES TO UI COMPONENTS
+### ======================================== REFERENCES TO UI COMPONENTS =========================================================
 @onready var score_label = $UserInterface/StatsContainer/ScoreLabel
 @onready var time_label = $UserInterface/StatsContainer/TimeLabel
 @onready var wave_label = $UserInterface/StatsContainer/WaveLabel
@@ -22,14 +22,14 @@ var dishes_buttons : Array[Button]
 var current_panel_buttons : Array[Button] # buttons of the panel that is currently visible
 var current_button_pointer : int # pointer to the button the user has currently selected (refers to the list of buttons of the currently visible panel)
 
-### EXPORTED VARIABLES THAT CONTAIN THE PATH TO DIRECTORIES OF ASSETS USED IN THE GAME
+### ========================= EXPORTED VARIABLES THAT CONTAIN THE PATH TO DIRECTORIES OF ASSETS USED IN THE GAME ====================
 @export var scenes_dir_path : String = "res://scenes/"
 @export var dishes_dir_path : String = "res://assets/icons/dishes/"
 @export var heroes_dir_path : String = "res://assets/icons/heroes/"
 @export var ingredients_dir_path : String = "res://assets/icons/ingredients/"
 @export var game_font_path : String = "res://assets/fonts/Emulogic-zrEw.ttf"
 
-### GAME CLASSES
+### ======================================================= GAME CLASSES =============================================================
 class Dish:
 	var name: String
 	var time: float
@@ -49,7 +49,7 @@ class Order:
 		self.dish = _dish
 		self.current_time = 0.0
 
-### STATE CONTROL VARIABLES
+### ====================================================== STATE CONTROL VARIABLES =====================================================
 const ORDERS_CREATION_INTERVAL : int = 10
 const MAX_WAVES : int = 3
 const DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE : float = 0.2
@@ -70,13 +70,13 @@ var dishes : Array[Dish] = [
 var orders : Array[Order] = [] # current orders
 var ingredients : Array[String] = [] # currently selected ingredients
 
-### UI VARIABLES
+### =============================================== UI CONFIGURATION VARIABLES =========================================================
 var normal_style : StyleBoxFlat
 var selected_style : StyleBoxFlat
 const PANELS_X_COORDINATE : int = 5
 const PANELS_Y_COORDINATE : int = 120
 
-### MAIN GAME FUNCTIONS
+### ======================================================= MAIN GAME FUNCTIONS ========================================================
 func _ready() -> void:
 	initialize_button_styles()
 	score_label.text = "Score:" + str(current_score)
@@ -88,16 +88,8 @@ func _ready() -> void:
 	heroes_buttons = initialize_delivery_panel()
 
 # Moves the selection of buttons in the UI panels with the arrow keys
-func _input(event) -> void:
-	if current_panel_buttons.is_empty(): return
-	if event.is_action_pressed("ui_left") and current_button_pointer > 0:
-		current_button_pointer -= 1
-		move_button_selection(current_button_pointer)
-	elif event.is_action_pressed("ui_right") and current_button_pointer < len(current_panel_buttons)-1:
-		current_button_pointer += 1
-		move_button_selection(current_button_pointer)
-	elif event.is_action_pressed("ui_accept"):
-		current_panel_buttons[current_button_pointer].emit_signal("pressed")
+func _input(event: InputEvent) -> void:
+	move_arrow_buttons_selection(event)
 	
 # Called every second
 func _on_timer_timeout() -> void:
@@ -164,7 +156,7 @@ func game_over() -> void:
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = gameover_scene
 
-### CALLBACK FUNCTIONS FOR AREAS IN THE SCENARIO ENTERED
+### ===================================== CALLBACK FUNCTIONS FOR AREAS IN THE SCENARIO ========================================
 func _on_delivery_area_body_entered(body: Node2D) -> void:
 	if body == player:
 		if not orders.is_empty():
@@ -209,7 +201,7 @@ func _on_preparation_area_body_exited(body: Node2D) -> void:
 		dishes_panel.visible = false
 		remove_focus_from_button(current_panel_buttons, current_button_pointer)
 
-### CALLBACK FUNCTIONS FOR UI COMPONENTS ACTIONS (PRESSED, TOGGLED ETC.)
+### =============================== CALLBACK FUNCTIONS FOR UI COMPONENTS ACTIONS (PRESSED, TOGGLED ETC.) ==============================
 # Called when an ingredient button is pressed, receiving as parameter a reference to the button
 func _on_ingredient_button_pressed(button : Button) -> void:
 	var ingredient : String = button.tooltip_text
@@ -260,7 +252,7 @@ func _on_hero_delivery_button_pressed(button : Button):
 	if current_score > 0:
 		current_score -= current_score*0.1
 	
-### FUNCIONS FOR MANAGING & INITIALIZING UI COMPONENTS
+### ======================================= FUNCTIONS FOR MANAGING & INITIALIZING UI COMPONENTS =======================================
 func initialize_button_styles() -> void:
 	normal_style = StyleBoxFlat.new()
 	normal_style.bg_color = Color(1, 1, 1, 0.5)
@@ -409,7 +401,7 @@ func delete_order(order : Order, index: int) -> void:
 	orders_container.remove_child(child)
 	child.queue_free()
 	
-### AUXILIARY FUNCTIONS
+### ======================================================== AUXILIARY FUNCTIONS ======================================================
 # Checks if all elements in list1 are present in list2
 func are_all_elements_present(list1: Array, list2: Array) -> bool:
 	for e in list1:
@@ -435,16 +427,19 @@ func get_dish() -> Dish:
 	var dish : Dish = dishes[pos]
 	return dish
 
+# Tells whether or not the wave should be incremented
 func should_increment_wave() -> bool:
 	if current_wave >= MAX_WAVES: return false
 	var wave_duration : int = TOTAL_GAME_DURATION_SECONDS / MAX_WAVES
 	var current_wave_end = wave_duration*current_wave
 	return current_wave_end < (TOTAL_GAME_DURATION_SECONDS-remaining_time)
 
+# Resets the stylebox of all buttons of the ingredients panels
 func reset_ingredients_buttons() -> void:
 	for button in ingredients_buttons_container.get_children():
 		button.add_theme_stylebox_override("normal", normal_style)
 
+# Generates a deep copy of the relevant attributes of a stylebox
 func duplicate_stylebox(stylebox : StyleBoxFlat) -> StyleBoxFlat:
 	var new_stylebox = StyleBoxFlat.new()
 	new_stylebox.bg_color = stylebox.bg_color
@@ -453,7 +448,20 @@ func duplicate_stylebox(stylebox : StyleBoxFlat) -> StyleBoxFlat:
 	new_stylebox.set_border_width_all(stylebox.border_width_left)
 	new_stylebox.set_content_margin_all(stylebox.content_margin_left)
 	return new_stylebox
+
+# Moves the focus of the UI panel buttons based on arrow keys events
+func move_arrow_buttons_selection(event: InputEventKey) -> void:
+	if current_panel_buttons == null or current_panel_buttons.is_empty(): return
+	if event.is_action_pressed("ui_left") and current_button_pointer > 0:
+		current_button_pointer -= 1
+		move_button_selection(current_button_pointer)
+	elif event.is_action_pressed("ui_right") and current_button_pointer < len(current_panel_buttons)-1:
+		current_button_pointer += 1
+		move_button_selection(current_button_pointer)
+	elif event.is_action_pressed("ui_accept"):
+		current_panel_buttons[current_button_pointer].emit_signal("pressed")
 	
+### ============================================= FUNCTIONS TO BE CALLED BY OTHER SCRIPTS ===============================================
 func set_day(day: int):
 	current_day = day
 	day_label.text = "Day: " + str(day)
