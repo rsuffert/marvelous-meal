@@ -64,8 +64,8 @@ var last_hero : String = "" # avoids selecting the same hero twice in a row for 
 var heroes : Array[String] = ['deadpool', 'hulk', 'spiderman', 'captain', 'hawkeye', 'ironman', 'wolverine'] # available heroes
 var heroes_in_use : Array[String] = [] # evita que herois em uso aparecam fazendo um novo pedido
 var dishes : Array[Dish] = [
-	Dish.new('Batata', 15, ['Potato']),
-	Dish.new('MacTudo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak', 'Soda']),
+	Dish.new('Fries', 15, ['Potato']),
+	Dish.new('Combo', 30, ['Bacon', 'Bread', 'Cheese', 'Onion', 'Pickle', 'Potato', 'Steak', 'Soda']),
 	Dish.new('Coke', 15, ['Soda']),
 	Dish.new('Pizza', 40, ['Bread', 'Cheese', 'Onion', 'Pepperoni', 'Tomato', 'Olive']),
 	Dish.new('HotDog', 20, ['Bread', 'Sausages', 'Mostard']),
