@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bic2j8g0lp5d"
-path="res://.godot/imported/Fries.png-2629e81907a2a0951744e9e1944778d5.ctex"
+uid="uid://dklpfhjvlfrrt"
+path="res://.godot/imported/game-map.png-31f995c815e87b42f0336b29d6047713.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/dishes/Fries.png"
-dest_files=["res://.godot/imported/Fries.png-2629e81907a2a0951744e9e1944778d5.ctex"]
+source_file="res://docs/game-map.png"
+dest_files=["res://.godot/imported/game-map.png-31f995c815e87b42f0336b29d6047713.ctex"]
 
 [params]
 

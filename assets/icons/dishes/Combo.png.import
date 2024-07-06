@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://by5k4pjf8h78r"
-path="res://.godot/imported/MacTudo.png-0d0582ad37e20bac4df90ebf5f493735.ctex"
+path="res://.godot/imported/Combo.png-6ec3aca7d0d3e3dd81db68b93f8ad890.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/dishes/MacTudo.png"
-dest_files=["res://.godot/imported/MacTudo.png-0d0582ad37e20bac4df90ebf5f493735.ctex"]
+source_file="res://assets/icons/dishes/Combo.png"
+dest_files=["res://.godot/imported/Combo.png-6ec3aca7d0d3e3dd81db68b93f8ad890.ctex"]
 
 [params]
 

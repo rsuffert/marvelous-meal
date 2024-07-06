@@ -79,6 +79,8 @@ var normal_style : StyleBoxFlat
 var selected_style : StyleBoxFlat
 const PANELS_X_COORDINATE : int = 5
 const PANELS_Y_COORDINATE : int = 120
+const UNPRESSED_BUTTON_COLOR : Color = Color(1, 1, 1, 0.5)
+const PRESSED_BUTTON_COLOR : Color = Color(0.1, 0.4, 1, 0.5)
 
 ### ======================================================= MAIN GAME FUNCTIONS ========================================================
 func _ready() -> void:
@@ -260,13 +262,13 @@ func _on_hero_delivery_button_pressed(button : Button):
 ### ======================================= FUNCTIONS FOR MANAGING & INITIALIZING UI COMPONENTS =======================================
 func initialize_button_styles() -> void:
 	normal_style = StyleBoxFlat.new()
-	normal_style.bg_color = Color(1, 1, 1, 0.5)
+	normal_style.bg_color = UNPRESSED_BUTTON_COLOR
 	normal_style.set_corner_radius_all(5)
 	normal_style.border_color = Color(0, 0, 0)
 	normal_style.set_border_width_all(3)
 	normal_style.set_content_margin_all(5)
 	selected_style = StyleBoxFlat.new()
-	selected_style.bg_color = Color(1, 1, 1, 0.5)
+	selected_style.bg_color = UNPRESSED_BUTTON_COLOR
 	selected_style.set_corner_radius_all(5)
 	selected_style.border_color = Color(1, 1, 1)
 	selected_style.set_border_width_all(3)
@@ -351,17 +353,17 @@ func move_button_selection(button_pointer: int) -> void:
 	if button_pointer >= len(current_panel_buttons): return
 	var button : Button = current_panel_buttons[current_button_pointer]
 	var stylebox = duplicate_stylebox(button.get_theme_stylebox("normal", "Button"))
-	stylebox.bg_color = Color(0.1, 0.4, 1, 0.5)
+	stylebox.bg_color = PRESSED_BUTTON_COLOR
 	button.add_theme_stylebox_override("normal", stylebox)
 	if button_pointer < len(current_panel_buttons)-1:
 		var next_button : Button = current_panel_buttons[current_button_pointer+1]
 		var next_stylebox = duplicate_stylebox(next_button.get_theme_stylebox("normal", "Button"))
-		next_stylebox.bg_color = Color(1, 1, 1, 0.5)
+		next_stylebox.bg_color = UNPRESSED_BUTTON_COLOR
 		next_button.add_theme_stylebox_override("normal", next_stylebox)
 	if button_pointer > 0:
 		var previous_button : Button = current_panel_buttons[current_button_pointer-1]
 		var prev_stylebox = duplicate_stylebox(previous_button.get_theme_stylebox("normal", "Button"))
-		prev_stylebox.bg_color = Color(1, 1, 1, 0.5)
+		prev_stylebox.bg_color = UNPRESSED_BUTTON_COLOR
 		previous_button.add_theme_stylebox_override("normal", prev_stylebox)
 
 # Removes the focus from the given button in the given list
@@ -369,7 +371,7 @@ func remove_focus_from_button(button_list: Array[Button], button_idx: int) -> vo
 	if button_idx >= len(button_list): return
 	var button : Button = button_list[button_idx]
 	var stylebox : StyleBoxFlat = duplicate_stylebox(button.get_theme_stylebox("normal", "Button"))
-	stylebox.bg_color = Color(1, 1, 1, 0.5)
+	stylebox.bg_color = UNPRESSED_BUTTON_COLOR
 	button.add_theme_stylebox_override("normal", stylebox)
 
 # Given a hero and a dish, creates an order, adding it to the screen and to the internal lists of the system to be tracked
@@ -458,11 +460,25 @@ func duplicate_stylebox(stylebox : StyleBoxFlat) -> StyleBoxFlat:
 # Moves the focus of the UI panel buttons based on arrow keys events
 func move_arrow_buttons_selection(event: InputEventKey) -> void:
 	if current_panel_buttons == null or current_panel_buttons.is_empty(): return
-	if event.is_action_pressed("ui_left") and current_button_pointer > 0:
-		current_button_pointer -= 1
+	if event.is_action_pressed("ui_left"):
+		if current_button_pointer > 0:
+			current_button_pointer -= 1
+		else:
+			current_button_pointer = len(current_panel_buttons)-1
+			# remove focus from first button
+			var stylebox = duplicate_stylebox(current_panel_buttons[0].get_theme_stylebox("normal", "Button"))
+			stylebox.bg_color = UNPRESSED_BUTTON_COLOR
+			current_panel_buttons[0].add_theme_stylebox_override("normal", stylebox)
 		move_button_selection(current_button_pointer)
-	elif event.is_action_pressed("ui_right") and current_button_pointer < len(current_panel_buttons)-1:
-		current_button_pointer += 1
+	elif event.is_action_pressed("ui_right"):
+		if current_button_pointer < len(current_panel_buttons)-1:
+			current_button_pointer += 1
+		else:
+			current_button_pointer = 0
+			# remove focus from last button
+			var stylebox = duplicate_stylebox(current_panel_buttons[-1].get_theme_stylebox("normal", "Button"))
+			stylebox.bg_color = UNPRESSED_BUTTON_COLOR
+			current_panel_buttons[-1].add_theme_stylebox_override("normal", stylebox)
 		move_button_selection(current_button_pointer)
 	elif event.is_action_pressed("ui_accept"):
 		current_panel_buttons[current_button_pointer].emit_signal("pressed")
