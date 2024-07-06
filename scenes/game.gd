@@ -87,8 +87,8 @@ func _ready() -> void:
 	initialize_button_styles()
 	score_label.text = "Score:" + str(current_score)
 	time_label.text = "Time:" + str(remaining_time)
-	wave_label.text = "Wave: " + str(current_wave)
-	day_label.text = "Day: " + str(current_day)
+	wave_label.text = "Wave:" + str(current_wave)
+	day_label.text = "Day:" + str(current_day)
 	ingredients_buttons = initialize_ingredients_panel()
 	initialize_dishes_panel()
 	heroes_buttons = initialize_delivery_panel()
@@ -141,7 +141,7 @@ func game_loop():
 			dish.time *= (1-DISH_TIME_REDUCTION_PERCENTAGE_PER_WAVE)
 		current_wave += 1
 		soundtrack.pitch_scale = soundtrack.pitch_scale + soundtrack.pitch_scale/(MAX_WAVES*2.5)
-		wave_label.text = "Wave: " + str(current_wave)
+		wave_label.text = "Wave:" + str(current_wave)
 
 # Handles terminating the game
 func game_over() -> void:
@@ -460,7 +460,7 @@ func duplicate_stylebox(stylebox : StyleBoxFlat) -> StyleBoxFlat:
 # Moves the focus of the UI panel buttons based on arrow keys events
 func move_arrow_buttons_selection(event: InputEventKey) -> void:
 	if current_panel_buttons == null or current_panel_buttons.is_empty(): return
-	if event.is_action_pressed("ui_left"):
+	if event.is_action_pressed("selection_left"):
 		if current_button_pointer > 0:
 			current_button_pointer -= 1
 		else:
@@ -470,7 +470,7 @@ func move_arrow_buttons_selection(event: InputEventKey) -> void:
 			stylebox.bg_color = UNPRESSED_BUTTON_COLOR
 			current_panel_buttons[0].add_theme_stylebox_override("normal", stylebox)
 		move_button_selection(current_button_pointer)
-	elif event.is_action_pressed("ui_right"):
+	elif event.is_action_pressed("selection_right"):
 		if current_button_pointer < len(current_panel_buttons)-1:
 			current_button_pointer += 1
 		else:
@@ -480,13 +480,13 @@ func move_arrow_buttons_selection(event: InputEventKey) -> void:
 			stylebox.bg_color = UNPRESSED_BUTTON_COLOR
 			current_panel_buttons[-1].add_theme_stylebox_override("normal", stylebox)
 		move_button_selection(current_button_pointer)
-	elif event.is_action_pressed("ui_accept"):
+	elif event.is_action_pressed("selection_accept"):
 		current_panel_buttons[current_button_pointer].emit_signal("pressed")
 	
 ### ============================================= FUNCTIONS TO BE CALLED BY OTHER SCRIPTS ===============================================
 func set_day(day: int):
 	current_day = day
-	day_label.text = "Day: " + str(day)
+	day_label.text = "Day:" + str(day)
 
 func set_score(score: int):
 	current_score = score
